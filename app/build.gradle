@@ -53,6 +53,6 @@ def getProps(String propName) {
         props.load(new FileInputStream(propsFile))
         return props[propName]
     } else {
-        throw Exception('local.properties file not found');
+        throw Exception('local.properties file not found')
     }
 }
