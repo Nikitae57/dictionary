@@ -7,13 +7,19 @@ import javax.inject.Inject
 class GetTranslationUseCase @Inject constructor(
     private val translationSource: TranslationSource
 ) {
-    fun invoke(
+    operator fun invoke(
         text: String,
         fromLanguage: LanguagesDomainModel,
         toLanguage: LanguagesDomainModel
-    ): Single<TranslationDomainModel> = translationSource.getTranslation(
-        text = text,
-        fromLanguage = fromLanguage,
-        toLanguage = toLanguage
-    )
+    ): Single<TranslationDomainModel> {
+        if (fromLanguage == toLanguage) {
+            return Single.just(TranslationDomainModel(translation = text))
+        }
+
+        return translationSource.getTranslation(
+            text = text,
+            fromLanguage = fromLanguage,
+            toLanguage = toLanguage
+        )
+    }
 }
