@@ -1,4 +1,4 @@
-package ru.nikitae57.domain.translation.gettranslation
+package ru.nikitae57.domain.translation.translate
 
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
@@ -8,19 +8,19 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
-import ru.nikitae57.domain.translation.LanguagesDomainModel
+import ru.nikitae57.domain.translation.models.LanguagesDomainModel
 
 private val translationDomainModel = TranslationDomainModel(translation = "translation")
 private const val text = "text"
 private val fromLanguage = LanguagesDomainModel.FR
 private val toLanguage = LanguagesDomainModel.EN
 
-class GetTranslationUseCaseTest {
+class TranslateUseCaseTest {
     private val translationSource = mock<TranslationSource> {
         on { getTranslation(any(), any(), any()) } doReturn Single.just(translationDomainModel)
     }
 
-    private val useCase = GetTranslationUseCase(translationSource = translationSource)
+    private val useCase = TranslateUseCase(translationSource = translationSource)
 
     @Test
     fun `GIVEN source succeed WHEN calling use case THEN should return result`() {

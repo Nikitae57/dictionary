@@ -2,10 +2,45 @@ package ru.nikitae57.dictionary
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import androidx.fragment.app.FragmentActivity
+import com.github.terrakok.cicerone.Command
+import com.github.terrakok.cicerone.Navigator
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Replace
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import ru.nikitae57.dictionary.Screens.Main
+import ru.nikitae57.dictionary.translation.mainscreen.MainScreenFragment
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : FragmentActivity(R.layout.activity_main) {
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+
+    private val navigator: Navigator = object : AppNavigator(this, R.id.fragment_container) {
+
+        override fun applyCommands(commands: Array<out Command>) {
+            super.applyCommands(commands)
+            supportFragmentManager.executePendingTransactions()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            navigator.applyCommands(arrayOf(Replace(Main())))
+        }
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        navigatorHolder.removeNavigator()
+        super.onPause()
     }
 }

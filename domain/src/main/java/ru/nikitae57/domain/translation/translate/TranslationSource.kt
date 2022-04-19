@@ -1,7 +1,7 @@
-package ru.nikitae57.domain.translation.gettranslation
+package ru.nikitae57.domain.translation.translate
 
 import io.reactivex.Single
-import ru.nikitae57.domain.translation.LanguagesDomainModel
+import ru.nikitae57.domain.translation.models.LanguagesDomainModel
 
 interface TranslationSource {
     fun getTranslation(

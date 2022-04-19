@@ -1,10 +1,10 @@
-package ru.nikitae57.domain.translation.gettranslation
+package ru.nikitae57.domain.translation.translate
 
 import io.reactivex.Single
-import ru.nikitae57.domain.translation.LanguagesDomainModel
+import ru.nikitae57.domain.translation.models.LanguagesDomainModel
 import javax.inject.Inject
 
-class GetTranslationUseCase @Inject constructor(
+class TranslateUseCase @Inject constructor(
     private val translationSource: TranslationSource
 ) {
     operator fun invoke(

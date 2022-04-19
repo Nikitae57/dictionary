@@ -1,12 +1,12 @@
 package ru.nikitae57.data.translation.gettranslation
 
 import io.reactivex.Single
-import ru.nikitae57.domain.translation.LanguagesDomainModel
-import ru.nikitae57.domain.translation.gettranslation.TranslationDomainModel
-import ru.nikitae57.domain.translation.gettranslation.TranslationSource
+import ru.nikitae57.domain.translation.models.LanguagesDomainModel
+import ru.nikitae57.domain.translation.translate.TranslationDomainModel
+import ru.nikitae57.domain.translation.translate.TranslationSource
+import javax.inject.Inject
 
-
-class TranslationStubDataSource : TranslationSource {
+class TranslationStubDataSource @Inject constructor() : TranslationSource {
     override fun getTranslation(
         text: String,
         fromLanguage: LanguagesDomainModel,

@@ -2,8 +2,8 @@ package ru.nikitae57.data.translation.gettranslation
 
 import io.reactivex.observers.TestObserver
 import org.junit.Test
-import ru.nikitae57.domain.translation.LanguagesDomainModel
-import ru.nikitae57.domain.translation.gettranslation.TranslationDomainModel
+import ru.nikitae57.domain.translation.models.LanguagesDomainModel
+import ru.nikitae57.domain.translation.translate.TranslationDomainModel
 
 private const val text = "text"
 private val fromLanguage = LanguagesDomainModel.FR

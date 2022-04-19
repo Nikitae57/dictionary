@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Dictionary</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="find_word">Find word</string>
+    <string name="error_message">There\'s something wrong. Try again later</string>
+    <string name="try_again_button_text">Try again</string>
+    <string name="ru_language_label">RU</string>
+    <string name="en_language_label">EN</string>
+    <string name="fr_language_labell">FR</string>
 </resources>
