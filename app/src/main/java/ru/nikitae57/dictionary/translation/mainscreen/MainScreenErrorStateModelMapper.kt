@@ -7,8 +7,9 @@ import javax.inject.Inject
 class MainScreenErrorStateModelMapper @Inject constructor(
     private val resources: Res
 ) {
-    operator fun invoke() = MainScreenStateModel.Error(
+    operator fun invoke(tryAgainAction: () -> Unit) = MainScreenStateModel.Error(
         tryAgainButtonText = resources.getString(R.string.try_again_button_text),
-        errorMessage = resources.getString(R.string.error_message)
+        errorMessage = resources.getString(R.string.error_message),
+        tryAgainAction = tryAgainAction
     )
 }

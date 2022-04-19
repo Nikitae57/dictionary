@@ -13,6 +13,7 @@ sealed class MainScreenStateModel {
 
     data class Error(
         val tryAgainButtonText: CharSequence,
-        val errorMessage: String
+        val errorMessage: String,
+        val tryAgainAction: () -> Unit
     ) : MainScreenStateModel()
 }

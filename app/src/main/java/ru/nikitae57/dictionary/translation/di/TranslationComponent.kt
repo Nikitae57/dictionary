@@ -4,7 +4,6 @@ import dagger.Component
 import ru.nikitae57.data.di.DataBindingModule
 import ru.nikitae57.dictionary.di.ActivityScope
 import ru.nikitae57.dictionary.di.AppComponent
-import ru.nikitae57.dictionary.di.FragmentScope
 import ru.nikitae57.dictionary.translation.mainscreen.MainScreenFragment
 import ru.nikitae57.dictionary.translation.mainscreen.MainScreenPresenter
 import ru.nikitae57.domain.core.Res

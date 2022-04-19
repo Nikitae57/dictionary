@@ -5,11 +5,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
-import moxy.MvpPresenter
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.domain.translation.savedtranslation.GetSavedTranslationsUseCase
 import ru.nikitae57.domain.translation.translate.TranslateUseCase
-import java.lang.Exception
 import javax.inject.Inject
 
 @InjectViewState
@@ -31,14 +29,18 @@ class MainScreenPresenter @Inject constructor(
         try {
             savedTranslationsUseCase.invoke()
                 .subscribeOn(Schedulers.io())
-                .doOnError { viewState.showError(errorStateModelMapper()) }
+                .doOnError { showError() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy {
                     viewState.showSuccessState(successStateMapper(it))
                 }
                 .also { addToDisposables(it) }
         } catch (ex: Exception) {
-            viewState.showError(errorStateModelMapper())
+            showError()
         }
     }
+
+    private fun showError() = viewState.showErrorState(
+        errorStateModelMapper(tryAgainAction = ::loadSavedTranslations)
+    )
 }

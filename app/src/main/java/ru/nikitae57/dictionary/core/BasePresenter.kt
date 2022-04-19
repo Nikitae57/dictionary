@@ -1,6 +1,5 @@
 package ru.nikitae57.dictionary.core
 
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

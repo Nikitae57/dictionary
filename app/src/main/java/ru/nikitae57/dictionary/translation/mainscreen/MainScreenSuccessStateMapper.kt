@@ -35,13 +35,13 @@ class MainScreenSuccessStateMapper @Inject constructor(
         )
     }
 
-    private fun mapLanguage(language: LanguagesDomainModel) = when(language) {
+    private fun mapLanguage(language: LanguagesDomainModel) = when (language) {
         LanguagesDomainModel.RU -> LanguagesStateModel.RU
         LanguagesDomainModel.EN -> LanguagesStateModel.EN
         LanguagesDomainModel.FR -> LanguagesStateModel.FR
     }
 
-    private fun mapLanguageLabel(language: LanguagesDomainModel) = when(language) {
+    private fun mapLanguageLabel(language: LanguagesDomainModel) = when (language) {
         LanguagesDomainModel.RU -> resources.getString(R.string.ru_language_label)
         LanguagesDomainModel.EN -> resources.getString(R.string.en_language_label)
         LanguagesDomainModel.FR -> resources.getString(R.string.fr_language_labell)

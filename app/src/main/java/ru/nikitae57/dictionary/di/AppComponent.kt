@@ -3,7 +3,6 @@ package ru.nikitae57.dictionary.di
 import android.content.Context
 import com.github.terrakok.cicerone.Router
 import dagger.Component
-import ru.nikitae57.data.di.DataBindingModule
 import ru.nikitae57.dictionary.MainActivity
 import ru.nikitae57.domain.core.Res
 import ru.nikitae57.domain.di.DomainBindingModule

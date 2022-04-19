@@ -63,19 +63,37 @@ class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
     }
 
     override fun showLoadingState() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.apply {
+            errorNotification.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+        }
     }
 
     override fun showSuccessState(state: MainScreenStateModel.Success) {
         updateTranslationsList(state.dictionaryEntryStateModels)
         with(binding) {
-            progressBar.visibility = View.GONE
             searchInput.visibility = View.VISIBLE
+            translationsList.visibility = View.VISIBLE
+            fab.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
+            errorNotification.visibility = View.GONE
         }
     }
 
-    override fun showError(state: MainScreenStateModel.Error) {
+    override fun showErrorState(state: MainScreenStateModel.Error) {
+        binding.apply {
+            errorMessage.text = state.errorMessage
+            tryAgainButton.apply {
+                text = state.tryAgainButtonText
+                setOnClickListener { state.tryAgainAction() }
+            }
 
+            errorNotification.visibility = View.VISIBLE
+            searchInput.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            translationsList.visibility = View.GONE
+            fab.visibility = View.GONE
+        }
     }
 
     private fun updateTranslationsList(dictionaryEntriesStateModel: DictionaryEntriesStateModel) {
