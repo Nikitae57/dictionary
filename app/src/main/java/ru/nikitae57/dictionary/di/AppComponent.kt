@@ -5,6 +5,7 @@ import com.github.terrakok.cicerone.Router
 import dagger.Component
 import ru.nikitae57.dictionary.MainActivity
 import ru.nikitae57.domain.core.Res
+import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.di.DomainBindingModule
 import javax.inject.Singleton
 
@@ -23,6 +24,8 @@ interface AppComponent {
     fun resources(): Res
 
     fun router(): Router
+
+    fun schedulerProvider(): SchedulerProvider
 
     fun inject(mainActivity: MainActivity)
 }

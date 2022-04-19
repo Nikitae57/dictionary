@@ -6,8 +6,8 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import ru.nikitae57.dictionary.core.BasePresenter
+import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.translation.savedtranslation.GetSavedTranslationsUseCase
-import ru.nikitae57.domain.translation.translate.TranslateUseCase
 import javax.inject.Inject
 
 @InjectViewState
@@ -16,8 +16,8 @@ class MainScreenPresenter @Inject constructor(
     initialStateMapper: MainScreenInitialStateModelMapper,
     private val successStateMapper: MainScreenSuccessStateMapper,
     private val errorStateModelMapper: MainScreenErrorStateModelMapper,
-    private val translateUseCase: TranslateUseCase,
-    private val savedTranslationsUseCase: GetSavedTranslationsUseCase,
+    private val getSavedTranslationsUseCase: GetSavedTranslationsUseCase,
+    private val schedulerProvider: SchedulerProvider
 ) : BasePresenter<MainScreenView>() {
     init {
         viewState.showInitialState(initialStateMapper())
@@ -27,10 +27,10 @@ class MainScreenPresenter @Inject constructor(
         viewState.showLoadingState()
 
         try {
-            savedTranslationsUseCase.invoke()
-                .subscribeOn(Schedulers.io())
+            getSavedTranslationsUseCase.invoke()
+                .subscribeOn(schedulerProvider.io())
                 .doOnError { showError() }
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(schedulerProvider.ui())
                 .subscribeBy {
                     viewState.showSuccessState(successStateMapper(it))
                 }
