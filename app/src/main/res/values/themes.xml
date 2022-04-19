@@ -19,4 +19,10 @@
         <item name="android:typeface">sans</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="FloatingActionButtonStyle">
+        <item name="tint">@color/white</item>
+<!--        <item name="android:typeface">sans</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
+    </style>
 </resources>

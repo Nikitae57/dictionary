@@ -8,4 +8,5 @@
     <string name="ru_language_label">RU</string>
     <string name="en_language_label">EN</string>
     <string name="fr_language_labell">FR</string>
+    <string name="add_new_dictionary_entry">Add new dictionary entry</string>
 </resources>
