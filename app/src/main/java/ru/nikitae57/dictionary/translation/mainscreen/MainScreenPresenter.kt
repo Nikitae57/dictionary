@@ -1,9 +1,7 @@
 package ru.nikitae57.dictionary.translation.mainscreen
 
 import com.github.terrakok.cicerone.Router
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.domain.core.SchedulerProvider
@@ -29,11 +27,11 @@ class MainScreenPresenter @Inject constructor(
         try {
             getSavedTranslationsUseCase.invoke()
                 .subscribeOn(schedulerProvider.io())
-                .doOnError { showError() }
                 .observeOn(schedulerProvider.ui())
-                .subscribeBy {
-                    viewState.showSuccessState(successStateMapper(it))
-                }
+                .subscribeBy(
+                    onError = { showError() },
+                    onSuccess = { viewState.showSuccessState(successStateMapper(it)) }
+                )
                 .also { addToDisposables(it) }
         } catch (ex: Exception) {
             showError()
