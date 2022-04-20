@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.nikitae57.dictionary.databinding.FragmentMainScreenBinding
+import ru.nikitae57.dictionary.databinding.FragmentSavedTranslationsBinding
 import ru.nikitae57.dictionary.getAppComponent
 import ru.nikitae57.dictionary.isRunningTest
 import ru.nikitae57.dictionary.translation.di.DaggerTranslationComponent
@@ -19,7 +19,7 @@ import javax.inject.Provider
 
 class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView {
 
-    private lateinit var binding: FragmentMainScreenBinding
+    private lateinit var binding: FragmentSavedTranslationsBinding
 
     @Inject
     lateinit var presenterProvider: Provider<SavedTranslationsPresenter>
@@ -42,7 +42,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentMainScreenBinding.inflate(inflater, container, false)
+        binding = FragmentSavedTranslationsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
