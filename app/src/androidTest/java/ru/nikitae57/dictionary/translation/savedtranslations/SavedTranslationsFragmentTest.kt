@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onIdle
@@ -18,24 +18,25 @@ import org.junit.runner.RunWith
 import ru.nikitae57.dictionary.R
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 import ru.nikitae57.dictionary.translation.models.DictionaryEntryStateModel
+import ru.nikitae57.dictionary.translation.models.LanguageStateModel
 import ru.nikitae57.dictionary.translation.models.LanguagesStateModel
 import ru.nikitae57.dictionary.translation.models.WordStateModel
 import javax.inject.Provider
 
 @RunWith(AndroidJUnit4::class)
-class MainScreenFragmentTest {
+class SavedTranslationsFragmentTest {
 
-    private val presenter = mockk<MainScreenPresenter>(relaxed = true)
-    private val mPresenterProvider = mockk<Provider<MainScreenPresenter>> {
+    private val presenter = mockk<SavedTranslationsPresenter>(relaxed = true)
+    private val mPresenterProvider = mockk<Provider<SavedTranslationsPresenter>> {
         every { get() } returns presenter
     }
 
     @Test
     fun whenShowingInitialStateThenShouldShowNothing() {
-        val stateModel = MainScreenStateModel.Initial(textInputHintText = "textInputHintText")
+        val stateModel = SavedTranslationsStateModel.Initial(textInputHintText = "textInputHintText")
 
         val scenario = launchFragmentInContainer(themeResId = R.style.Theme_Dictionary) {
-            MainScreenFragment().apply {
+            SavedTranslationsFragment().apply {
                 presenterProvider = mPresenterProvider
             }
         }
@@ -52,7 +53,7 @@ class MainScreenFragmentTest {
     @Test
     fun whenShowingLoadingStateThenShouldShowOnlyProgressBar() {
         val scenario = launchFragmentInContainer(themeResId = R.style.Theme_Dictionary) {
-            MainScreenFragment().apply {
+            SavedTranslationsFragment().apply {
                 presenterProvider = mPresenterProvider
             }
         }
@@ -68,26 +69,26 @@ class MainScreenFragmentTest {
 
     @Test
     fun whenShowingSuccessStateThenShouldShowRightContent() {
-        val stateModel = MainScreenStateModel.Success(
+        val stateModel = SavedTranslationsStateModel.Success(
             dictionaryEntryStateModels = DictionaryEntriesStateModel(
                 listOf(
                     DictionaryEntryStateModel(
                         words = listOf(
-                            WordStateModel(text = "text1", language = LanguagesStateModel.RU, languageLabel = "label1"),
-                            WordStateModel(text = "text2", language = LanguagesStateModel.RU, languageLabel = "label2"),
-                            WordStateModel(text = "text3", language = LanguagesStateModel.RU, languageLabel = "label3")
+                            WordStateModel(text = "text1", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label1")),
+                            WordStateModel(text = "text2", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label2")),
+                            WordStateModel(text = "text3", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label3"))
                         )
                     ),
                     DictionaryEntryStateModel(
                         words = listOf(
-                            WordStateModel(text = "text4", language = LanguagesStateModel.RU, languageLabel = "label4"),
+                            WordStateModel(text = "text4", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label4")),
                         )
                     )
                 )
             )
         )
         val scenario = launchFragmentInContainer(themeResId = R.style.Theme_Dictionary) {
-            MainScreenFragment().apply {
+            SavedTranslationsFragment().apply {
                 presenterProvider = mPresenterProvider
             }
         }
@@ -102,20 +103,20 @@ class MainScreenFragmentTest {
         stateModel.dictionaryEntryStateModels.entries.forEach { dictionaryEntryStateModel ->
             dictionaryEntryStateModel.words.forEach { wordStateModel ->
                 onView(withText(wordStateModel.text)).check(matches(isDisplayed()))
-                onView(withText(wordStateModel.languageLabel)).check(matches(isDisplayed()))
+                onView(withText(wordStateModel.languageLabel.label.toString())).check(matches(isDisplayed()))
             }
         }
     }
 
     @Test
     fun whenShowingErrorStateThenShouldShowErrorNotification() {
-        val stateModel = MainScreenStateModel.Error(
+        val stateModel = SavedTranslationsStateModel.Error(
             tryAgainButtonText = "tryAgainButtonText",
             errorMessage = "errorMessage",
             tryAgainAction = {}
         )
         val scenario = launchFragmentInContainer(themeResId = R.style.Theme_Dictionary) {
-            MainScreenFragment().apply {
+            SavedTranslationsFragment().apply {
                 presenterProvider = mPresenterProvider
             }
         }
@@ -134,13 +135,13 @@ class MainScreenFragmentTest {
     @Test
     fun givenErrorStateWhenClickingOnTryAgainButtonThenShouldInvokeTryAgainAction() {
         val tryAgainAction = mockk<() -> Unit>(relaxed = true)
-        val stateModel = MainScreenStateModel.Error(
+        val stateModel = SavedTranslationsStateModel.Error(
             tryAgainButtonText = "tryAgainButtonText",
             errorMessage = "errorMessage",
             tryAgainAction = tryAgainAction
         )
         val scenario = launchFragmentInContainer(themeResId = R.style.Theme_Dictionary) {
-            MainScreenFragment().apply {
+            SavedTranslationsFragment().apply {
                 presenterProvider = mPresenterProvider
             }
         }

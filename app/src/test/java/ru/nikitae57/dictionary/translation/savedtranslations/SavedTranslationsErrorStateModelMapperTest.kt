@@ -10,8 +10,8 @@ private const val tryAgainButtonText = "tryAgainButtonText"
 private const val errorMessage = "errorMessage"
 private val tryAgainAction = {}
 
-class MainScreenErrorStateModelMapperTest {
-    private val resources = mockk<Res>{
+class SavedTranslationsErrorStateModelMapperTest {
+    private val resources = mockk<Res> {
         every { getString(R.string.try_again_button_text) } returns tryAgainButtonText
         every { getString(R.string.error_message) } returns errorMessage
     }
