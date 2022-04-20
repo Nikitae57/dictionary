@@ -28,7 +28,7 @@ class SavedTranslationsSuccessStateMapperTest {
         )
         val model = mapper(dictionaryEntriesDomainModel)
 
-        model.dictionaryEntryStateModels.entries.forEachIndexed { i, dictionaryEntryStateModel ->
+        model.entries.forEachIndexed { i, dictionaryEntryStateModel ->
             val dictionaryEntryDomainModel = dictionaryEntriesDomainModel.entries[i]
             dictionaryEntryStateModel.words.forEachIndexed { j, wordStateModel ->
                 assert(dictionaryEntryDomainModel.words[j].text == wordStateModel.text)

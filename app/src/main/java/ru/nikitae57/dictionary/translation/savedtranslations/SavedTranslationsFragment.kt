@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
@@ -52,6 +53,11 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
             fab.setOnClickListener {
                 presenter.onAddTranslationClicked()
             }
+            searchInputEditText.addTextChangedListener { editable ->
+                editable?.let {
+                    presenter.onSearchTextChanged(it.toString())
+                }
+            }
             translationsList.apply {
                 layoutManager = LinearLayoutManager(context)
                 adapter = TranslationItemAdapter(
@@ -62,7 +68,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
     }
 
     override fun showInitialState(state: SavedTranslationsStateModel.Initial) {
-        binding.searchInput.hint = state.textInputHintText
+        binding.searchInputLayout.hint = state.textInputHintText
     }
 
     override fun showLoadingState() {
@@ -72,10 +78,10 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
         }
     }
 
-    override fun showSuccessState(state: SavedTranslationsStateModel.Success) {
-        updateTranslationsList(state.dictionaryEntryStateModels)
+    override fun showSuccessState(dictionaryEntriesStateModel: DictionaryEntriesStateModel) {
+        updateTranslationsList(dictionaryEntriesStateModel)
         with(binding) {
-            searchInput.visibility = View.VISIBLE
+            searchInputLayout.visibility = View.VISIBLE
             translationsList.visibility = View.VISIBLE
             fab.visibility = View.VISIBLE
             progressBar.visibility = View.GONE
@@ -92,7 +98,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
             }
 
             errorNotification.visibility = View.VISIBLE
-            searchInput.visibility = View.GONE
+            searchInputLayout.visibility = View.GONE
             progressBar.visibility = View.GONE
             translationsList.visibility = View.GONE
             fab.visibility = View.GONE

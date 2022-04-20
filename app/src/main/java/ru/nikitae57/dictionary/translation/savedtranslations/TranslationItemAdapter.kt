@@ -27,6 +27,7 @@ class TranslationItemAdapter(
     override fun onBindViewHolder(holder: TranslationItemViewHolder, position: Int) {
         val inflater = LayoutInflater.from(holder.itemView.context)
 
+        holder.wordsList.removeAllViews()
         dictionaryEntriesStateModel.entries[position].words.forEach {
             val view = inflater.inflate(
                 R.layout.words_list_item, holder.itemView as CardView, false

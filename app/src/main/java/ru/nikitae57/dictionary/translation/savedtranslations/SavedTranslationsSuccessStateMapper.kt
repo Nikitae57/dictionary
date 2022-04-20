@@ -9,10 +9,8 @@ import ru.nikitae57.domain.translation.models.WordDomainModel
 import javax.inject.Inject
 
 class SavedTranslationsSuccessStateMapper @Inject constructor() {
-    operator fun invoke(dictionaryEntriesDomainModel: DictionaryEntriesDomainModel) = SavedTranslationsStateModel.Success(
-        dictionaryEntryStateModels = DictionaryEntriesStateModel(
-            entries = mapEntries(dictionaryEntriesDomainModel.entries)
-        )
+    operator fun invoke(dictionaryEntriesDomainModel: DictionaryEntriesDomainModel) = DictionaryEntriesStateModel(
+        entries = mapEntries(dictionaryEntriesDomainModel.entries)
     )
 
     private fun mapEntries(entries: List<DictionaryEntryDomainModel>) = entries.map { dictionaryEntryDomainModel ->
