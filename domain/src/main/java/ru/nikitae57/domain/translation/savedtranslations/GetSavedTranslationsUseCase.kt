@@ -1,4 +1,4 @@
-package ru.nikitae57.domain.translation.savedtranslation
+package ru.nikitae57.domain.translation.savedtranslations
 
 import javax.inject.Inject
 
