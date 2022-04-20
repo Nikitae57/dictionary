@@ -7,7 +7,7 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import ru.nikitae57.dictionary.Screens.Main
+import ru.nikitae57.dictionary.core.BackButtonListener
 import javax.inject.Inject
 
 class MainActivity : FragmentActivity(R.layout.activity_main) {
@@ -27,7 +27,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            navigator.applyCommands(arrayOf(Replace(Main())))
+            navigator.applyCommands(arrayOf(Replace(Screens.main())))
         }
     }
 
@@ -39,5 +39,14 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
     override fun onPause() {
         navigatorHolder.removeNavigator()
         super.onPause()
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (fragment != null && fragment is BackButtonListener) {
+            fragment.onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

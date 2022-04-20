@@ -1,8 +1,10 @@
 package ru.nikitae57.dictionary.translation.translate
 
 import android.util.Log
+import com.github.terrakok.cicerone.Router
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
+import ru.nikitae57.dictionary.core.AppSchedulerProvider
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.dictionary.translation.models.WordStateModel
 import ru.nikitae57.domain.translation.savetranslation.SaveTranslationUseCase
@@ -11,10 +13,12 @@ import javax.inject.Inject
 
 @InjectViewState
 class AddTranslationPresenter @Inject constructor(
+    private val router: Router,
     private val successStateMapper: AddTranslationSuccessStateMapper,
     private val saveTranslationUseCase: SaveTranslationUseCase,
     private val wordDomainModelMapper: WordDomainModelMapper,
-    private val errorStateMapper: AddTranslationErrorStateMapper
+    private val errorStateMapper: AddTranslationErrorStateMapper,
+    private val schedulerProvider: AppSchedulerProvider,
 ) : BasePresenter<AddTranslationView>() {
 
     private var translation: WordStateModel? = null
@@ -28,6 +32,10 @@ class AddTranslationPresenter @Inject constructor(
         subscribeToInputChanges()
     }
 
+    fun onBackPressed() {
+        router.exit()
+    }
+
     fun onChangeTextToTranslate(text: String, languageLabel: String) =
         textToTranslateSubject.onNext(WordStateModel(text = text, languageLabel = languageLabel))
 
@@ -36,6 +44,8 @@ class AddTranslationPresenter @Inject constructor(
             viewState.showLoadingState()
 
             saveTranslationUseCase.invoke(wordDomainModel = wordDomainModelMapper(wordStateModel))
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe({
                     savedTranslations.add(wordStateModel)
                     viewState.showSuccessState(successStateMapper(savedTranslations))
@@ -52,6 +62,7 @@ class AddTranslationPresenter @Inject constructor(
             Log.d(TAG, "lang=${it.languageLabel}, text:${it.text}")
             it
         }
+        .observeOn(schedulerProvider.ui())
         .subscribe {
             // TODO scratch code
             viewState.showTranslation(it)

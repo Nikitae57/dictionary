@@ -48,12 +48,16 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.loadSavedTranslations()
-        binding.translationsList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = TranslationItemAdapter(
-                DictionaryEntriesStateModel.createEmpty()
-            )
+        binding.apply {
+            fab.setOnClickListener {
+                presenter.onAddTranslationClicked()
+            }
+            translationsList.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = TranslationItemAdapter(
+                    DictionaryEntriesStateModel.createEmpty()
+                )
+            }
         }
     }
 
