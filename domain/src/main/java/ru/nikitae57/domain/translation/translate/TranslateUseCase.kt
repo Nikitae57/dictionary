@@ -1,7 +1,6 @@
 package ru.nikitae57.domain.translation.translate
 
 import io.reactivex.Single
-import ru.nikitae57.domain.translation.models.LanguagesDomainModel
 import javax.inject.Inject
 
 class TranslateUseCase @Inject constructor(
@@ -9,17 +8,17 @@ class TranslateUseCase @Inject constructor(
 ) {
     operator fun invoke(
         text: String,
-        fromLanguage: LanguagesDomainModel,
-        toLanguage: LanguagesDomainModel
+        fromLanguageLabel: String,
+        toLanguageLabel: String
     ): Single<TranslationDomainModel> {
-        if (fromLanguage == toLanguage) {
+        if (fromLanguageLabel == toLanguageLabel) {
             return Single.just(TranslationDomainModel(translation = text))
         }
 
         return translationSource.getTranslation(
             text = text,
-            fromLanguage = fromLanguage,
-            toLanguage = toLanguage
+            fromLanguageLabel = fromLanguageLabel,
+            toLanguageLabel = toLanguageLabel
         )
     }
 }
