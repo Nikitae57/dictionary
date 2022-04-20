@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import android.content.Context
 import android.os.Bundle
@@ -17,13 +17,12 @@ import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 import javax.inject.Inject
 import javax.inject.Provider
 
-class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
+class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView {
 
     private lateinit var binding: FragmentMainScreenBinding
 
     @Inject
-    lateinit var presenterProvider: Provider<MainScreenPresenter>
-
+    lateinit var presenterProvider: Provider<SavedTranslationsPresenter>
     private val presenter by moxyPresenter {
         presenterProvider.get()
     }
@@ -58,7 +57,7 @@ class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
         }
     }
 
-    override fun showInitialState(state: MainScreenStateModel.Initial) {
+    override fun showInitialState(state: SavedTranslationsStateModel.Initial) {
         binding.searchInput.hint = state.textInputHintText
     }
 
@@ -69,7 +68,7 @@ class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
         }
     }
 
-    override fun showSuccessState(state: MainScreenStateModel.Success) {
+    override fun showSuccessState(state: SavedTranslationsStateModel.Success) {
         updateTranslationsList(state.dictionaryEntryStateModels)
         with(binding) {
             searchInput.visibility = View.VISIBLE
@@ -80,7 +79,7 @@ class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
         }
     }
 
-    override fun showErrorState(state: MainScreenStateModel.Error) {
+    override fun showErrorState(state: SavedTranslationsStateModel.Error) {
         binding.apply {
             errorMessage.text = state.errorMessage
             tryAgainButton.apply {
@@ -109,6 +108,6 @@ class MainScreenFragment : MvpAppCompatFragment(), MainScreenView {
     }
 
     companion object {
-        fun newInstance() = MainScreenFragment()
+        fun newInstance() = SavedTranslationsFragment()
     }
 }

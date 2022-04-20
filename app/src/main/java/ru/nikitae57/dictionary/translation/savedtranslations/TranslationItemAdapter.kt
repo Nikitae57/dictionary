@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import android.view.LayoutInflater
 import android.view.View

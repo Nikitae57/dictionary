@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import androidx.recyclerview.widget.DiffUtil
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel

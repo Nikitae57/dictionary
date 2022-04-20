@@ -1,19 +1,19 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 
-sealed class MainScreenStateModel {
+sealed class SavedTranslationsStateModel {
     data class Initial(
         val textInputHintText: CharSequence,
-    ) : MainScreenStateModel()
+    ) : SavedTranslationsStateModel()
 
     data class Success(
         val dictionaryEntryStateModels: DictionaryEntriesStateModel
-    ) : MainScreenStateModel()
+    ) : SavedTranslationsStateModel()
 
     data class Error(
         val tryAgainButtonText: CharSequence,
         val errorMessage: String,
         val tryAgainAction: () -> Unit
-    ) : MainScreenStateModel()
+    ) : SavedTranslationsStateModel()
 }

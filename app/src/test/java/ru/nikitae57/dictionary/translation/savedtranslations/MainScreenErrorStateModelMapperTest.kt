@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import io.mockk.every
 import io.mockk.mockk
@@ -16,7 +16,7 @@ class MainScreenErrorStateModelMapperTest {
         every { getString(R.string.error_message) } returns errorMessage
     }
 
-    private val mapper = MainScreenErrorStateModelMapper(resources = resources)
+    private val mapper = SavedTranslationsErrorStateModelMapper(resources = resources)
 
     @Test
     fun `WHEN invoked THEN should return right model`() {

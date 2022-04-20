@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import com.github.terrakok.cicerone.Router
 import io.mockk.every
@@ -8,38 +8,37 @@ import io.reactivex.Single
 import org.junit.Test
 import ru.nikitae57.dictionary.TestSchedulerProvider
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
-import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
-import ru.nikitae57.domain.translation.savedtranslation.GetSavedTranslationsUseCase
+import ru.nikitae57.domain.translation.savedtranslations.GetSavedTranslationsUseCase
 
-private val initialState = MainScreenStateModel.Initial(
+private val initialState = SavedTranslationsStateModel.Initial(
     textInputHintText = "textInputHintText"
 )
 
 private val dictionaryEntriesDomainModel = DictionaryEntriesDomainModel(entries = emptyList())
 
-private val successState = MainScreenStateModel.Success(
+private val successState = SavedTranslationsStateModel.Success(
     dictionaryEntryStateModels = DictionaryEntriesStateModel.createEmpty()
 )
 
-private val errorState = MainScreenStateModel.Error(
+private val errorState = SavedTranslationsStateModel.Error(
     tryAgainAction = {},
     tryAgainButtonText = "tryAgainButtonText",
     errorMessage = "errorMessage"
 )
 
-class MainScreenPresenterTest {
-    private val view = mockk<MainScreenView>(relaxed = true)
+class SavedTranslationsPresenterTest {
+    private val view = mockk<SavedTranslationsView>(relaxed = true)
     private val router = mockk<Router>(relaxed = true)
-    private val initialStateMapper = mockk<MainScreenInitialStateModelMapper>() {
+    private val initialStateMapper = mockk<SavedTranslationsInitialStateModelMapper>() {
         val mock = this
         every { mock.invoke() } returns initialState
     }
-    private val successStateMapper = mockk<MainScreenSuccessStateMapper> {
+    private val successStateMapper = mockk<SavedTranslationsSuccessStateMapper> {
         val mock = this
         every { mock.invoke(dictionaryEntriesDomainModel) } returns successState
     }
-    private val errorStateModelMapper = mockk<MainScreenErrorStateModelMapper> {
+    private val errorStateModelMapper = mockk<SavedTranslationsErrorStateModelMapper> {
         val mock = this
         every { mock.invoke(any()) } returns errorState
     }
@@ -74,7 +73,7 @@ class MainScreenPresenterTest {
         verify(exactly = 0) { view.showSuccessState(any()) }
     }
 
-    private fun getPresenter() = MainScreenPresenter(
+    private fun getPresenter() = SavedTranslationsPresenter(
         router = router,
         initialStateMapper = initialStateMapper,
         successStateMapper = successStateMapper,

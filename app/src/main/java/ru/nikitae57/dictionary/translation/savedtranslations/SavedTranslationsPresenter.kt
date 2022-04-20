@@ -1,22 +1,22 @@
-package ru.nikitae57.dictionary.translation.mainscreen
+package ru.nikitae57.dictionary.translation.savedtranslations
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxkotlin.subscribeBy
 import moxy.InjectViewState
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.domain.core.SchedulerProvider
-import ru.nikitae57.domain.translation.savedtranslation.GetSavedTranslationsUseCase
+import ru.nikitae57.domain.translation.savedtranslations.GetSavedTranslationsUseCase
 import javax.inject.Inject
 
 @InjectViewState
-class MainScreenPresenter @Inject constructor(
+class SavedTranslationsPresenter @Inject constructor(
     private val router: Router,
-    initialStateMapper: MainScreenInitialStateModelMapper,
-    private val successStateMapper: MainScreenSuccessStateMapper,
-    private val errorStateModelMapper: MainScreenErrorStateModelMapper,
+    initialStateMapper: SavedTranslationsInitialStateModelMapper,
+    private val successStateMapper: SavedTranslationsSuccessStateMapper,
+    private val errorStateModelMapper: SavedTranslationsErrorStateModelMapper,
     private val getSavedTranslationsUseCase: GetSavedTranslationsUseCase,
     private val schedulerProvider: SchedulerProvider
-) : BasePresenter<MainScreenView>() {
+) : BasePresenter<SavedTranslationsView>() {
     init {
         viewState.showInitialState(initialStateMapper())
     }
