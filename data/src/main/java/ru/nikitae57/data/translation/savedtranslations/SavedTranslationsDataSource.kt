@@ -1,10 +1,11 @@
 package ru.nikitae57.data.translation.savedtranslations
 
+import io.reactivex.Completable
 import io.reactivex.Single
+import ru.nikitae57.domain.translation.SavedTranslationsSource
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
 import ru.nikitae57.domain.translation.models.DictionaryEntryDomainModel
 import ru.nikitae57.domain.translation.models.WordDomainModel
-import ru.nikitae57.domain.translation.savedtranslations.SavedTranslationsSource
 import javax.inject.Inject
 
 class SavedTranslationsDataSource @Inject constructor() : SavedTranslationsSource {
@@ -28,5 +29,9 @@ class SavedTranslationsDataSource @Inject constructor() : SavedTranslationsSourc
                 )
             )
         )
+    }
+
+    override fun saveTranslation(wordDomainModel: WordDomainModel): Completable {
+        return Completable.complete()
     }
 }

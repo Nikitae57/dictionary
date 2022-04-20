@@ -4,7 +4,7 @@ import dagger.Binds
 import dagger.Module
 import ru.nikitae57.data.translation.gettranslation.TranslationStubDataSource
 import ru.nikitae57.data.translation.savedtranslations.SavedTranslationsDataSource
-import ru.nikitae57.domain.translation.savedtranslations.SavedTranslationsSource
+import ru.nikitae57.domain.translation.SavedTranslationsSource
 import ru.nikitae57.domain.translation.translate.TranslationSource
 
 @Module

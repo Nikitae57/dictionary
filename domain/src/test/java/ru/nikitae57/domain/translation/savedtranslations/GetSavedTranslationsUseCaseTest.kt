@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.Test
+import ru.nikitae57.domain.translation.SavedTranslationsSource
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
 
 private val dictionaryEntriesDomainModel = DictionaryEntriesDomainModel(entries = emptyList())
