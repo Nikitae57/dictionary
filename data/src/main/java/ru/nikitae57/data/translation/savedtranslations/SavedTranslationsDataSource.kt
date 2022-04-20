@@ -3,10 +3,8 @@ package ru.nikitae57.data.translation.savedtranslations
 import io.reactivex.Single
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
 import ru.nikitae57.domain.translation.models.DictionaryEntryDomainModel
-import ru.nikitae57.domain.translation.models.LanguagesDomainModel
 import ru.nikitae57.domain.translation.models.WordDomainModel
-import ru.nikitae57.domain.translation.savedtranslation.SavedTranslationsSource
-import java.util.concurrent.TimeUnit
+import ru.nikitae57.domain.translation.savedtranslations.SavedTranslationsSource
 import javax.inject.Inject
 
 class SavedTranslationsDataSource @Inject constructor() : SavedTranslationsSource {
@@ -16,15 +14,15 @@ class SavedTranslationsDataSource @Inject constructor() : SavedTranslationsSourc
                 entries = listOf(
                     DictionaryEntryDomainModel(
                         words = listOf(
-                            WordDomainModel(text = "Слово", language = LanguagesDomainModel.RU),
-                            WordDomainModel(text = "Word", language = LanguagesDomainModel.EN),
+                            WordDomainModel(text = "Слово", languageLabel = "ru"),
+                            WordDomainModel(text = "Word", languageLabel = "en"),
                         )
                     ),
                     DictionaryEntryDomainModel(
                         words = listOf(
-                            WordDomainModel(text = "Что-то", language = LanguagesDomainModel.RU),
-                            WordDomainModel(text = "Something", language = LanguagesDomainModel.EN),
-                            WordDomainModel(text = "Que", language = LanguagesDomainModel.FR),
+                            WordDomainModel(text = "Что-то", languageLabel = "ru"),
+                            WordDomainModel(text = "Something", languageLabel = "en"),
+                            WordDomainModel(text = "Que", languageLabel = "fr"),
                         )
                     )
                 )

@@ -5,8 +5,10 @@
     <string name="find_word">Find word</string>
     <string name="error_message">There\'s something wrong. Try again later</string>
     <string name="try_again_button_text">Try again</string>
-    <string name="ru_language_label">RU</string>
-    <string name="en_language_label">EN</string>
-    <string name="fr_language_label">FR</string>
+    <string name="ru_language_label">ru</string>
+    <string name="en_language_label">en</string>
+    <string name="fr_language_label">fr</string>
     <string name="add_new_dictionary_entry">Add new dictionary entry</string>
+    <string name="add_translation_button_text">Add translation</string>
+    <string name="word_input_hint">Type in a word to translate</string>
 </resources>

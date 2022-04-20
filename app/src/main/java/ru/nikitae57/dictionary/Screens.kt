@@ -1,10 +1,10 @@
 package ru.nikitae57.dictionary
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import ru.nikitae57.dictionary.translation.mainscreen.MainScreenFragment
+import ru.nikitae57.dictionary.translation.savedtranslations.SavedTranslationsFragment
 
 object Screens {
     fun Main() = FragmentScreen {
-        MainScreenFragment.newInstance()
+        SavedTranslationsFragment.newInstance()
     }
 }

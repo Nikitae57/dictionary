@@ -18,8 +18,6 @@ import org.junit.runner.RunWith
 import ru.nikitae57.dictionary.R
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 import ru.nikitae57.dictionary.translation.models.DictionaryEntryStateModel
-import ru.nikitae57.dictionary.translation.models.LanguageStateModel
-import ru.nikitae57.dictionary.translation.models.LanguagesStateModel
 import ru.nikitae57.dictionary.translation.models.WordStateModel
 import javax.inject.Provider
 
@@ -74,14 +72,14 @@ class SavedTranslationsFragmentTest {
                 listOf(
                     DictionaryEntryStateModel(
                         words = listOf(
-                            WordStateModel(text = "text1", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label1")),
-                            WordStateModel(text = "text2", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label2")),
-                            WordStateModel(text = "text3", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label3"))
+                            WordStateModel(text = "text1", languageLabel = "label1"),
+                            WordStateModel(text = "text2", languageLabel = "label2"),
+                            WordStateModel(text = "text3", languageLabel = "label3")
                         )
                     ),
                     DictionaryEntryStateModel(
                         words = listOf(
-                            WordStateModel(text = "text4", languageLabel = LanguageStateModel(language = LanguagesStateModel.RU, label = "label4")),
+                            WordStateModel(text = "text4", languageLabel = "label4"),
                         )
                     )
                 )
@@ -103,7 +101,7 @@ class SavedTranslationsFragmentTest {
         stateModel.dictionaryEntryStateModels.entries.forEach { dictionaryEntryStateModel ->
             dictionaryEntryStateModel.words.forEach { wordStateModel ->
                 onView(withText(wordStateModel.text)).check(matches(isDisplayed()))
-                onView(withText(wordStateModel.languageLabel.label.toString())).check(matches(isDisplayed()))
+                onView(withText(wordStateModel.languageLabel)).check(matches(isDisplayed()))
             }
         }
     }
