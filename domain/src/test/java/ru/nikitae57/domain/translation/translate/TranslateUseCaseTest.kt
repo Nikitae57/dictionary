@@ -23,7 +23,6 @@ class TranslateUseCaseTest {
     fun `GIVEN source succeed WHEN calling use case THEN should return result`() {
         val observer = TestObserver<TranslationDomainModel>()
         useCase(text = text, fromLanguageLabel = fromLanguageLabel, toLanguageLabel = toLanguageLabel)
-            .toObservable()
             .subscribe(observer)
 
         observer.assertValue(translationDomainModel)
@@ -33,7 +32,6 @@ class TranslateUseCaseTest {
     fun `GIVEN to and from languages match WHEN calling use case THEN should return passed text`() {
         val observer = TestObserver<TranslationDomainModel>()
         useCase(text = text, fromLanguageLabel = fromLanguageLabel, toLanguageLabel = fromLanguageLabel)
-            .toObservable()
             .subscribe(observer)
 
         observer.assertValue(TranslationDomainModel(translation = text))
@@ -47,7 +45,6 @@ class TranslateUseCaseTest {
 
         val observer = TestObserver<TranslationDomainModel>()
         useCase(text = text, fromLanguageLabel = fromLanguageLabel, toLanguageLabel = toLanguageLabel)
-            .toObservable()
             .subscribe(observer)
 
         observer.assertError(error)
