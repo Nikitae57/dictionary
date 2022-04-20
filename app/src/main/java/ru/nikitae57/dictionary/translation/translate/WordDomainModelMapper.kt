@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class WordDomainModelMapper @Inject constructor() {
     operator fun invoke(wordStateModel: WordStateModel) = WordDomainModel(
-        text = wordStateModel.text,
-        languageLabel = wordStateModel.languageLabel,
+        text = wordStateModel.text.toString(),
+        languageLabel = wordStateModel.languageLabel.toString(),
     )
 }

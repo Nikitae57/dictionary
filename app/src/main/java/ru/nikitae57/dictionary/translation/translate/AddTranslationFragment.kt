@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import moxy.MvpAppCompatFragment
@@ -45,7 +46,11 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
         binding.apply {
             wordInputEditText.addTextChangedListener { editable ->
                 editable?.let {
-                    presenter.onChangeTextToTranslate(text = it.toString(), languageLabel = "ru") // TODO scratch code
+                    val selectedLanguageLabel = languagesSpinner.selectedItem.toString()
+                    presenter.onChangeTextToTranslate(
+                        text = it.toString(),
+                        languageLabel = selectedLanguageLabel
+                    )
                 }
             }
         }
@@ -90,6 +95,11 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
                 text = state.addButtonText
             }
             wordInputLayout.hint = state.wordInputHint
+            languagesSpinner.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                state.languageLabels
+            )
 
             globalProgressBar.visibility = View.GONE
             translationProgressBar.visibility = View.GONE
