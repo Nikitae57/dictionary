@@ -29,7 +29,7 @@
     </style>
 
     <style name="DefaultImageButtonStyle">
-        <item name="tint">@color/purple_700</item>
+        <item name="android:tint">@color/purple_500</item>
         <item name="android:background">?android:selectableItemBackgroundBorderless</item>
     </style>
 </resources>

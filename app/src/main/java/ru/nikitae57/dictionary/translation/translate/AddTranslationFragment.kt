@@ -77,11 +77,13 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     override fun showTranslation(translation: CharSequence) {
         with(binding) {
             translationProgressBar.visibility = View.GONE
-            addButton.isEnabled = true
-            swapLanguagesButton.isEnabled = true
             translatedWord.apply {
                 text = translation
                 visibility = View.VISIBLE
+            }
+            if (translation.isNotEmpty()) {
+                addButton.isEnabled = true
+                swapLanguagesButton.isEnabled = true
             }
         }
     }
@@ -111,7 +113,6 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
                 visibility = View.VISIBLE
             }
             wordInputLayout.hint = state.wordInputHint
-            wordInputEditText.text?.clear()
             fromLanguagesSpinner.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -139,13 +140,6 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     override fun showErrorState(state: AddTranslationStateModel.Error) {
         context?.let {
             Toast.makeText(it, state.errorMessage, Toast.LENGTH_LONG)
-        }
-    }
-
-    override fun showTranslationBlockedState() {
-        binding.apply {
-            addButton.isEnabled = false
-            swapLanguagesButton.isEnabled = false
         }
     }
 

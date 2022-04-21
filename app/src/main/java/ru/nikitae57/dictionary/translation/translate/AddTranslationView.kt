@@ -1,27 +1,24 @@
 package ru.nikitae57.dictionary.translation.translate
 
 import moxy.MvpView
-import moxy.viewstate.strategy.alias.SingleState
+import moxy.viewstate.strategy.alias.AddToEnd
 
 interface AddTranslationView : MvpView {
-    @SingleState
+    @AddToEnd
     fun showLoadingState()
 
-    @SingleState
-    fun showTranslationBlockedState()
-
-    @SingleState
+    @AddToEnd
     fun showTranslationLoadingState()
 
-    @SingleState
+    @AddToEnd
     fun showTranslation(translation: CharSequence)
 
-    @SingleState
+    @AddToEnd
     fun updateLanguages(fromLanguageLabels: List<CharSequence>, toLanguageLabels: List<CharSequence>)
 
-    @SingleState
+    @AddToEnd
     fun showSuccessState(state: AddTranslationStateModel.Success)
 
-    @SingleState
+    @AddToEnd
     fun showErrorState(state: AddTranslationStateModel.Error)
 }

@@ -60,7 +60,6 @@ class AddTranslationPresenter @Inject constructor(
     }
 
     private fun onTextOrLanguageChanged() {
-        viewState.showTranslationBlockedState()
         textToTranslateSubject.onNext(
             WordToTranslateStateModel(
                 text = currentInputText.text.toString(),
@@ -109,10 +108,14 @@ class AddTranslationPresenter @Inject constructor(
     private fun subscribeToInputChanges() = textToTranslateSubject
         .subscribeOn(schedulerProvider.io())
         .debounce(500L, TimeUnit.MILLISECONDS)
+        .observeOn(schedulerProvider.ui())
         .map {
-            Log.d(TAG, "Sending to translate: from=$${it.fromLanguageLabel}, to=${it.toLanguageLabel} text:${it.text}")
-            WordToTranslateDomainModel(text = it.text, fromLanguageLabel = it.fromLanguageLabel, toLanguageLabel = it.toLanguageLabel)
+            if (it.text.isNotEmpty()) {
+                viewState.showTranslationLoadingState()
+            }
+            it
         }
+        .observeOn(schedulerProvider.io())
         .flatMap {
             if (it.text.isEmpty()) {
                 Observable.just(
@@ -124,14 +127,15 @@ class AddTranslationPresenter @Inject constructor(
                     )
                 )
             } else {
-                translateUseCase(it).toObservable()
+                val domainModel = WordToTranslateDomainModel(
+                    text = it.text,
+                    fromLanguageLabel = it.fromLanguageLabel,
+                    toLanguageLabel = it.toLanguageLabel
+                )
+                Log.d(TAG, "Sending to translate: from=$${it.fromLanguageLabel}, to=${it.toLanguageLabel} text:${it.text}")
+                translateUseCase(domainModel).toObservable()
             }
         }
-        .observeOn(schedulerProvider.ui())
-        .doOnNext {
-            viewState.showTranslationLoadingState()
-        }
-        .delay(500L, TimeUnit.MILLISECONDS)
         .observeOn(schedulerProvider.ui())
         .subscribe { translationDomainModel ->
             currentTranslation = WordStateModel(text = translationDomainModel.translation, languageLabel = translationDomainModel.toLanguageLabel)
@@ -147,6 +151,6 @@ class AddTranslationPresenter @Inject constructor(
     }
 
     companion object {
-        val TAG: String = AddTranslationPresenter::class.java.name
+        val TAG: String = AddTranslationPresenter::class.java.simpleName
     }
 }
