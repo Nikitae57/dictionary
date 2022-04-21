@@ -18,6 +18,13 @@ class TranslationStubDataSource @Inject constructor() : TranslationSource {
             else -> throw Exception("Unsupported language: $toLanguageLabel")
         }
 
-        return Single.just(TranslationDomainModel(translation))
+        return Single.just(
+            TranslationDomainModel(
+                translation = translation,
+                originalText = text,
+                fromLanguageLabel = fromLanguageLabel,
+                toLanguageLabel = toLanguageLabel
+            )
+        )
     }
 }

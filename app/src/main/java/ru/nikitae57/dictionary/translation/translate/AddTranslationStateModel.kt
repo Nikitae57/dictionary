@@ -1,13 +1,16 @@
 package ru.nikitae57.dictionary.translation.translate
 
-import ru.nikitae57.dictionary.translation.models.WordStateModel
+import androidx.annotation.DrawableRes
 
 sealed class AddTranslationStateModel {
     data class Success(
         val addButtonText: CharSequence,
         val wordInputHint: CharSequence,
-        val languageLabels: List<CharSequence>,
-        val savedTranslations: List<WordStateModel>
+        val fromLanguageLabels: List<CharSequence>,
+        val fromLanguagesSpinnerLabel: CharSequence,
+        val toLanguageLabels: List<CharSequence>,
+        val toLanguagesSpinnerLabel: CharSequence,
+        @DrawableRes val swapLanguagesIconId: Int
     ) : AddTranslationStateModel()
 
     data class Error(val errorMessage: CharSequence)

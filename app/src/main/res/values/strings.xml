@@ -12,4 +12,6 @@
     <string name="add_translation_button_text">Save translation</string>
     <string name="word_input_hint">Type in a word to translate</string>
     <string name="add_translation_error_message">Something went wrong</string>
+    <string name="to_languages_spinner_label">to</string>
+    <string name="from_languages_spinner_label">from</string>
 </resources>

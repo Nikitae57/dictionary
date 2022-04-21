@@ -6,19 +6,22 @@ import javax.inject.Inject
 class TranslateUseCase @Inject constructor(
     private val translationSource: TranslationSource
 ) {
-    operator fun invoke(
-        text: String,
-        fromLanguageLabel: String,
-        toLanguageLabel: String
-    ): Single<TranslationDomainModel> {
-        if (fromLanguageLabel == toLanguageLabel) {
-            return Single.just(TranslationDomainModel(translation = text))
+    operator fun invoke(wordToTranslateDomainModel: WordToTranslateDomainModel): Single<TranslationDomainModel> {
+        if (wordToTranslateDomainModel.fromLanguageLabel == wordToTranslateDomainModel.toLanguageLabel) {
+            return Single.just(
+                TranslationDomainModel(
+                    translation = wordToTranslateDomainModel.text,
+                    originalText = wordToTranslateDomainModel.text,
+                    fromLanguageLabel = wordToTranslateDomainModel.fromLanguageLabel,
+                    toLanguageLabel = wordToTranslateDomainModel.toLanguageLabel
+                )
+            )
         }
 
         return translationSource.getTranslation(
-            text = text,
-            fromLanguageLabel = fromLanguageLabel,
-            toLanguageLabel = toLanguageLabel
+            text = wordToTranslateDomainModel.text,
+            fromLanguageLabel = wordToTranslateDomainModel.fromLanguageLabel,
+            toLanguageLabel = wordToTranslateDomainModel.toLanguageLabel
         )
     }
 }

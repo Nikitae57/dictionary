@@ -32,9 +32,9 @@ class AddTranslationSuccessStateMapperTest {
         assertEquals(savedTranslations, model.savedTranslations)
         assertEquals(add_translation_button_text, model.addButtonText)
         assertEquals(word_input_hint, model.wordInputHint)
-        assertEquals(3, model.languageLabels.size)
-        assertEquals(ru_language_label, model.languageLabels[0].label)
-        assertEquals(en_language_label, model.languageLabels[1].label)
-        assertEquals(fr_language_label, model.languageLabels[2].label)
+        assertEquals(3, model.fromLanguageLabels.size)
+        assertEquals(ru_language_label, model.fromLanguageLabels[0].label)
+        assertEquals(en_language_label, model.fromLanguageLabels[1].label)
+        assertEquals(fr_language_label, model.fromLanguageLabels[2].label)
     }
 }

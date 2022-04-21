@@ -27,4 +27,9 @@
     <style name="FloatingActionButtonStyle">
         <item name="tint">@color/white</item>
     </style>
+
+    <style name="DefaultImageButtonStyle">
+        <item name="tint">@color/purple_700</item>
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
 </resources>

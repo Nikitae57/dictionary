@@ -31,7 +31,7 @@ class SavedTranslationsDataSource @Inject constructor() : SavedTranslationsSourc
         )
     }
 
-    override fun saveTranslation(wordDomainModel: WordDomainModel): Completable {
+    override fun saveTranslation(dictionaryEntryDomainModel: DictionaryEntryDomainModel): Completable {
         return Completable.complete()
     }
 }

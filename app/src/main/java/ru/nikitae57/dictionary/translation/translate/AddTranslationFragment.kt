@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -14,7 +16,6 @@ import ru.nikitae57.dictionary.core.BackButtonListener
 import ru.nikitae57.dictionary.databinding.FragmentAddTranslationBinding
 import ru.nikitae57.dictionary.getAppComponent
 import ru.nikitae57.dictionary.translation.di.DaggerTranslationComponent
-import ru.nikitae57.dictionary.translation.models.WordStateModel
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -43,17 +44,7 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
-            wordInputEditText.addTextChangedListener { editable ->
-                editable?.let {
-                    val selectedLanguageLabel = languagesSpinner.selectedItem.toString()
-                    presenter.onChangeTextToTranslate(
-                        text = it.toString(),
-                        languageLabel = selectedLanguageLabel
-                    )
-                }
-            }
-        }
+        setListeners()
     }
 
     override fun onBackPressed() = presenter.onBackPressed()
@@ -62,10 +53,15 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
         with(binding) {
             globalProgressBar.visibility = View.VISIBLE
             addButton.visibility = View.GONE
+            swapLanguagesButton.visibility = View.GONE
             translationProgressBar.visibility = View.GONE
-            languagesSpinner.visibility = View.GONE
+            fromLanguagesSpinner.visibility = View.GONE
+            fromLanguageLabel.visibility = View.GONE
+            toLanguagesSpinner.visibility = View.GONE
+            toLanguageLabel.visibility = View.GONE
             divider.visibility = View.GONE
             wordInputLayout.visibility = View.GONE
+            translatedWord.visibility = View.GONE
         }
     }
 
@@ -73,38 +69,68 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
         with(binding) {
             translationProgressBar.visibility = View.VISIBLE
             translatedWord.visibility = View.GONE
-            // addButton.isEnabled = false
+            addButton.isEnabled = false
+            swapLanguagesButton.isEnabled = false
         }
     }
 
-    override fun showTranslation(translation: WordStateModel) {
+    override fun showTranslation(translation: CharSequence) {
         with(binding) {
             translationProgressBar.visibility = View.GONE
             addButton.isEnabled = true
+            swapLanguagesButton.isEnabled = true
             translatedWord.apply {
-                text = translation.text
+                text = translation
                 visibility = View.VISIBLE
             }
         }
     }
 
+    override fun updateLanguages(fromLanguageLabels: List<CharSequence>, toLanguageLabels: List<CharSequence>) = with(binding) {
+        fromLanguagesSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            fromLanguageLabels
+        )
+        toLanguagesSpinner.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            toLanguageLabels
+        )
+    }
+
     override fun showSuccessState(state: AddTranslationStateModel.Success) {
         with(binding) {
             addButton.apply {
-                isEnabled = true
+                isEnabled = false
                 text = state.addButtonText
+                visibility = View.VISIBLE
+            }
+            swapLanguagesButton.apply {
+                setImageDrawable(ContextCompat.getDrawable(requireContext(), state.swapLanguagesIconId))
+                visibility = View.VISIBLE
             }
             wordInputLayout.hint = state.wordInputHint
-            languagesSpinner.adapter = ArrayAdapter(
+            wordInputEditText.text?.clear()
+            fromLanguagesSpinner.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                state.languageLabels
+                state.fromLanguageLabels
             )
+            toLanguagesSpinner.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                state.toLanguageLabels
+            )
+            toLanguageLabel.text = state.toLanguagesSpinnerLabel
+            fromLanguageLabel.text = state.fromLanguagesSpinnerLabel
 
             globalProgressBar.visibility = View.GONE
             translationProgressBar.visibility = View.GONE
-            addButton.visibility = View.VISIBLE
-            languagesSpinner.visibility = View.VISIBLE
+            fromLanguagesSpinner.visibility = View.VISIBLE
+            fromLanguageLabel.visibility = View.VISIBLE
+            toLanguagesSpinner.visibility = View.VISIBLE
+            toLanguageLabel.visibility = View.VISIBLE
             divider.visibility = View.VISIBLE
             wordInputLayout.visibility = View.VISIBLE
         }
@@ -113,6 +139,42 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     override fun showErrorState(state: AddTranslationStateModel.Error) {
         context?.let {
             Toast.makeText(it, state.errorMessage, Toast.LENGTH_LONG)
+        }
+    }
+
+    override fun showTranslationBlockedState() {
+        binding.apply {
+            addButton.isEnabled = false
+            swapLanguagesButton.isEnabled = false
+        }
+    }
+
+    private fun setListeners() = binding.apply {
+        addButton.setOnClickListener { presenter.onSaveTranslation() }
+        wordInputEditText.addTextChangedListener { editable ->
+            val fromLanguage = fromLanguagesSpinner.selectedItem
+            val toLanguage = toLanguagesSpinner.selectedItem
+            if (editable != null && toLanguage != null && fromLanguage != null) {
+                presenter.onChangeTextToTranslate(text = editable.toString())
+            }
+        }
+        swapLanguagesButton.setOnClickListener { presenter.onSwapLanguages() }
+        fromLanguagesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                presenter.onFromLanguageChanged(fromLanguagesSpinner.selectedItem.toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        toLanguagesSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                presenter.onToLanguageChanged(toLanguagesSpinner.selectedItem.toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
     }
 
