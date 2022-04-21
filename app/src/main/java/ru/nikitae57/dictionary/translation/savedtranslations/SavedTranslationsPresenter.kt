@@ -29,7 +29,6 @@ class SavedTranslationsPresenter @Inject constructor(
         super.onFirstViewAttach()
         subscribeToTextChanges()
         viewState.showInitialState(initialStateMapper())
-        loadSavedTranslations()
     }
 
     fun onAddTranslationClicked() {
@@ -59,7 +58,7 @@ class SavedTranslationsPresenter @Inject constructor(
             .also { addToDisposables(it) }
     }
 
-    private fun loadSavedTranslations() {
+    fun loadSavedTranslations() {
         viewState.showLoadingState()
 
         try {

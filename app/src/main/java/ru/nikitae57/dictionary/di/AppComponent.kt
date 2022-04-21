@@ -4,6 +4,7 @@ import android.content.Context
 import com.github.terrakok.cicerone.Router
 import dagger.Component
 import ru.nikitae57.dictionary.MainActivity
+import ru.nikitae57.dictionary.core.room.AppDatabase
 import ru.nikitae57.domain.core.Res
 import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.di.DomainBindingModule
@@ -26,6 +27,8 @@ interface AppComponent {
     fun router(): Router
 
     fun schedulerProvider(): SchedulerProvider
+
+    fun appDataBase(): AppDatabase
 
     fun inject(mainActivity: MainActivity)
 }

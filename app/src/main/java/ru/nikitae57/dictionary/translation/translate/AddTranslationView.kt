@@ -11,7 +11,7 @@ interface AddTranslationView : MvpView {
     fun showTranslationLoadingState()
 
     @AddToEnd
-    fun showTranslation(translation: CharSequence)
+    fun showTranslation(translation: CharSequence, shouldBlockTranslateButton: Boolean)
 
     @AddToEnd
     fun updateLanguages(fromLanguageLabels: List<CharSequence>, toLanguageLabels: List<CharSequence>)

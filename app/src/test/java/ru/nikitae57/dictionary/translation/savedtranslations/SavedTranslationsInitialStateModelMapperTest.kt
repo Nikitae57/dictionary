@@ -2,7 +2,7 @@ package ru.nikitae57.dictionary.translation.savedtranslations
 
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import ru.nikitae57.dictionary.R
 import ru.nikitae57.domain.core.Res

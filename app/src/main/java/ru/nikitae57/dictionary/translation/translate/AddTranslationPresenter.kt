@@ -94,7 +94,6 @@ class AddTranslationPresenter @Inject constructor(
 
         viewState.showLoadingState()
         saveTranslationUseCase.invoke(dictionaryEntryDomainModelMapper(from = currentInputText, to = currentTranslation))
-            .delay(5L, TimeUnit.SECONDS)
             .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .subscribe({
@@ -117,7 +116,7 @@ class AddTranslationPresenter @Inject constructor(
         }
         .observeOn(schedulerProvider.io())
         .flatMap {
-            if (it.text.isEmpty()) {
+            if (it.text.isEmpty() || it.fromLanguageLabel == it.toLanguageLabel) {
                 Observable.just(
                     TranslationDomainModel(
                         translation = it.text,
@@ -138,8 +137,14 @@ class AddTranslationPresenter @Inject constructor(
         }
         .observeOn(schedulerProvider.ui())
         .subscribe { translationDomainModel ->
-            currentTranslation = WordStateModel(text = translationDomainModel.translation, languageLabel = translationDomainModel.toLanguageLabel)
-            viewState.showTranslation(translationDomainModel.translation)
+            with(translationDomainModel) {
+                currentTranslation = WordStateModel(text = translation, languageLabel = toLanguageLabel)
+                viewState.showTranslation(
+                    translation = translation,
+                    shouldBlockTranslateButton = fromLanguageLabel == toLanguageLabel
+                            || translation.isEmpty()
+                )
+            }
         }.also { addToDisposables(it) }
 
     private fun showSuccessState() {

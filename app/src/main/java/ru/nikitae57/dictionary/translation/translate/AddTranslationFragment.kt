@@ -74,17 +74,15 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
         }
     }
 
-    override fun showTranslation(translation: CharSequence) {
+    override fun showTranslation(translation: CharSequence, shouldBlockTranslateButton: Boolean) {
         with(binding) {
             translationProgressBar.visibility = View.GONE
             translatedWord.apply {
                 text = translation
                 visibility = View.VISIBLE
             }
-            if (translation.isNotEmpty()) {
-                addButton.isEnabled = true
-                swapLanguagesButton.isEnabled = true
-            }
+            swapLanguagesButton.isEnabled = true
+            addButton.isEnabled = !shouldBlockTranslateButton
         }
     }
 

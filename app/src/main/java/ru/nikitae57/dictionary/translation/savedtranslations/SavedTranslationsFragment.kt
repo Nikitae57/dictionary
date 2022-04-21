@@ -33,6 +33,11 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
         super.onAttach(context)
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.loadSavedTranslations()
+    }
+
     private fun initDi() {
         if (!isRunningTest) {
             DaggerTranslationComponent.builder()
