@@ -19,7 +19,7 @@ class SavedTranslationsPresenter @Inject constructor(
     private val successStateMapper: SavedTranslationsSuccessStateMapper,
     private val errorStateModelMapper: SavedTranslationsErrorStateModelMapper,
     private val getSavedTranslationsUseCase: GetSavedTranslationsUseCase,
-    private val schedulerProvider: SchedulerProvider
+    private val schedulerProvider: SchedulerProvider,
 ) : BasePresenter<SavedTranslationsView>() {
 
     private val textToSearchSubject = PublishSubject.create<String>()

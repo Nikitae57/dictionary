@@ -5,13 +5,13 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
-import ru.nikitae57.dictionary.core.AppSchedulerProvider
+import ru.nikitae57.common.AppSchedulerProvider
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.dictionary.translation.models.WordStateModel
 import ru.nikitae57.domain.translation.savetranslation.SaveTranslationUseCase
+import ru.nikitae57.domain.translation.translate.TextToTranslateDomainModel
 import ru.nikitae57.domain.translation.translate.TranslateUseCase
 import ru.nikitae57.domain.translation.translate.TranslationDomainModel
-import ru.nikitae57.domain.translation.translate.WordToTranslateDomainModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -99,7 +99,7 @@ class AddTranslationPresenter @Inject constructor(
             .subscribe({
                 router.exit()
             }, {
-                viewState.showErrorState(errorStateMapper())
+                viewState.showErrorState(errorStateMapper(it.message))
             })
             .also { addToDisposables(it) }
     }
@@ -126,25 +126,32 @@ class AddTranslationPresenter @Inject constructor(
                     )
                 )
             } else {
-                val domainModel = WordToTranslateDomainModel(
+                val domainModel = TextToTranslateDomainModel(
                     text = it.text,
                     fromLanguageLabel = it.fromLanguageLabel,
                     toLanguageLabel = it.toLanguageLabel
                 )
                 Log.d(TAG, "Sending to translate: from=$${it.fromLanguageLabel}, to=${it.toLanguageLabel} text:${it.text}")
-                translateUseCase(domainModel).toObservable()
+                translateUseCase(domainModel)
+                    .toObservable()
+                    .observeOn(schedulerProvider.ui())
+                    .doOnError { error ->
+                        viewState.showErrorState(errorStateMapper(error.message))
+                    }.observeOn(schedulerProvider.io())
+                    .onExceptionResumeNext {
+                        val i = 0
+                    }
             }
         }
+        .map { WordStateModel(text = it.translation, languageLabel = it.toLanguageLabel) }
         .observeOn(schedulerProvider.ui())
-        .subscribe { translationDomainModel ->
-            with(translationDomainModel) {
-                currentTranslation = WordStateModel(text = translation, languageLabel = toLanguageLabel)
-                viewState.showTranslation(
-                    translation = translation,
-                    shouldBlockTranslateButton = fromLanguageLabel == toLanguageLabel
-                            || translation.isEmpty()
-                )
-            }
+        .subscribe {
+            currentTranslation = it
+            viewState.showTranslation(
+                translation = it.text,
+                shouldBlockTranslateButton = fromLanguageLabel == toLanguageLabel
+                        || it.text.isEmpty()
+            )
         }.also { addToDisposables(it) }
 
     private fun showSuccessState() {

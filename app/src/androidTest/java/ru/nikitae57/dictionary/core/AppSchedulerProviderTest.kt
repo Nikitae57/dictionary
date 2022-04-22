@@ -6,7 +6,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class AppSchedulerProviderTest {
-    private val schedulerProvider = AppSchedulerProvider()
+    private val schedulerProvider = ru.nikitae57.common.AppSchedulerProvider()
 
     @Test
     fun whenCallingIoThenShouldReturnIo() {

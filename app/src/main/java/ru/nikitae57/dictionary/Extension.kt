@@ -2,11 +2,16 @@ package ru.nikitae57.dictionary
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import ru.nikitae57.dictionary.di.AppComponent
+import ru.nikitae57.dictionary.translation.savedtranslations.SavedTranslationsFragment
+import ru.nikitae57.dictionary.translation.translate.AddTranslationFragment
 
-fun Fragment.getAppComponent(): AppComponent = (requireContext().applicationContext as App).appComponent
+fun Fragment.getAppComponent() = (requireContext().applicationContext as App).appComponent
 
-fun Activity.getAppComponent(): AppComponent = (applicationContext as App).appComponent
+fun Activity.getAppComponent() = (applicationContext as App).appComponent
+
+fun SavedTranslationsFragment.getTranslationsComponent() = (requireContext().applicationContext as App).translationComponent
+
+fun AddTranslationFragment.getTranslationsComponent() = (requireContext().applicationContext as App).translationComponent
 
 val Fragment.isRunningTest: Boolean by lazy {
     try {

@@ -27,7 +27,7 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
-            navigator.applyCommands(arrayOf(Replace(Screens.main())))
+            navigator.applyCommands(arrayOf(Replace(Screens.savedTranslations())))
         }
     }
 

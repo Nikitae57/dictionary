@@ -22,11 +22,7 @@ android {
     }
 
     buildTypes {
-        debug {
-            buildConfigField "String", "API_KEY", getProps("API_KEY")
-        }
         release {
-            buildConfigField "String", "API_KEY", getProps("API_KEY")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -43,6 +39,9 @@ android {
 dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
+    implementation project(path: ':common')
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     implementation "androidx.room:room-runtime:2.4.2"
     kapt "androidx.room:room-compiler:2.4.2"
@@ -77,15 +76,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     debugImplementation 'androidx.fragment:fragment-testing:1.4.1'
     androidTestImplementation 'androidx.test:core:1.4.0'
-}
-
-def getProps(String propName) {
-    def propsFile = rootProject.file('local.properties')
-    if (propsFile.exists()) {
-        def props = new Properties()
-        props.load(new FileInputStream(propsFile))
-        return props[propName]
-    } else {
-        throw Exception('local.properties file not found')
-    }
 }

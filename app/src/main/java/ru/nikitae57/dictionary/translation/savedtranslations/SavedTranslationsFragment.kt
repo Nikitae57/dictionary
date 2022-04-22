@@ -11,9 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nikitae57.dictionary.databinding.FragmentSavedTranslationsBinding
-import ru.nikitae57.dictionary.getAppComponent
+import ru.nikitae57.dictionary.getTranslationsComponent
 import ru.nikitae57.dictionary.isRunningTest
-import ru.nikitae57.dictionary.translation.di.DaggerTranslationComponent
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 import javax.inject.Inject
 import javax.inject.Provider
@@ -40,10 +39,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
 
     private fun initDi() {
         if (!isRunningTest) {
-            DaggerTranslationComponent.builder()
-                .appComponent(getAppComponent())
-                .build()
-                .inject(this)
+            getTranslationsComponent().inject(this)
         }
     }
 
@@ -78,7 +74,10 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
 
     override fun showLoadingState() {
         binding.apply {
-            errorNotification.visibility = View.GONE
+            errorNotification.visibility = View.INVISIBLE
+            translationsList.visibility = View.INVISIBLE
+            searchInputLayout.visibility = View.INVISIBLE
+            fab.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
         }
     }
@@ -89,8 +88,8 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
             searchInputLayout.visibility = View.VISIBLE
             translationsList.visibility = View.VISIBLE
             fab.visibility = View.VISIBLE
-            progressBar.visibility = View.GONE
-            errorNotification.visibility = View.GONE
+            progressBar.visibility = View.INVISIBLE
+            errorNotification.visibility = View.INVISIBLE
         }
     }
 
@@ -103,10 +102,10 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
             }
 
             errorNotification.visibility = View.VISIBLE
-            searchInputLayout.visibility = View.GONE
-            progressBar.visibility = View.GONE
-            translationsList.visibility = View.GONE
-            fab.visibility = View.GONE
+            searchInputLayout.visibility = View.INVISIBLE
+            progressBar.visibility = View.INVISIBLE
+            translationsList.visibility = View.INVISIBLE
+            fab.visibility = View.INVISIBLE
         }
     }
 

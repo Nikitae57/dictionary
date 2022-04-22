@@ -6,7 +6,7 @@ import ru.nikitae57.domain.translation.translate.TranslateUseCase
 import ru.nikitae57.domain.translation.translate.TranslationSource
 
 @Module
-class DomainBindingModule {
+class DomainModule {
     @Provides
     fun translateUseCase(translationSource: TranslationSource) = TranslateUseCase(translationSource)
 }

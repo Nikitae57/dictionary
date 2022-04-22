@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.core
+package ru.nikitae57.common
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

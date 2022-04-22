@@ -7,15 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nikitae57.dictionary.core.BackButtonListener
 import ru.nikitae57.dictionary.databinding.FragmentAddTranslationBinding
-import ru.nikitae57.dictionary.getAppComponent
-import ru.nikitae57.dictionary.translation.di.DaggerTranslationComponent
+import ru.nikitae57.dictionary.getTranslationsComponent
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -31,9 +29,7 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        DaggerTranslationComponent.builder()
-            .appComponent(getAppComponent())
-            .build()
+        getTranslationsComponent()
             .inject(this)
     }
 
@@ -52,31 +48,34 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     override fun showLoadingState() {
         with(binding) {
             globalProgressBar.visibility = View.VISIBLE
-            addButton.visibility = View.GONE
-            swapLanguagesButton.visibility = View.GONE
-            translationProgressBar.visibility = View.GONE
-            fromLanguagesSpinner.visibility = View.GONE
-            fromLanguageLabel.visibility = View.GONE
-            toLanguagesSpinner.visibility = View.GONE
-            toLanguageLabel.visibility = View.GONE
-            divider.visibility = View.GONE
-            wordInputLayout.visibility = View.GONE
-            translatedWord.visibility = View.GONE
+            addButton.visibility = View.INVISIBLE
+            swapLanguagesButton.visibility = View.INVISIBLE
+            translationProgressBar.visibility = View.INVISIBLE
+            fromLanguagesSpinner.visibility = View.INVISIBLE
+            fromLanguageLabel.visibility = View.INVISIBLE
+            toLanguagesSpinner.visibility = View.INVISIBLE
+            toLanguageLabel.visibility = View.INVISIBLE
+            divider.visibility = View.INVISIBLE
+            wordInputLayout.visibility = View.INVISIBLE
+            translatedWord.visibility = View.INVISIBLE
+            errorMessage.visibility = View.INVISIBLE
         }
     }
 
     override fun showTranslationLoadingState() {
         with(binding) {
             translationProgressBar.visibility = View.VISIBLE
-            translatedWord.visibility = View.GONE
+            translatedWord.visibility = View.INVISIBLE
             addButton.isEnabled = false
             swapLanguagesButton.isEnabled = false
+            errorMessage.visibility = View.INVISIBLE
         }
     }
 
     override fun showTranslation(translation: CharSequence, shouldBlockTranslateButton: Boolean) {
         with(binding) {
-            translationProgressBar.visibility = View.GONE
+            translationProgressBar.visibility = View.INVISIBLE
+            errorMessage.visibility = View.INVISIBLE
             translatedWord.apply {
                 text = translation
                 visibility = View.VISIBLE
@@ -124,8 +123,9 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
             toLanguageLabel.text = state.toLanguagesSpinnerLabel
             fromLanguageLabel.text = state.fromLanguagesSpinnerLabel
 
-            globalProgressBar.visibility = View.GONE
-            translationProgressBar.visibility = View.GONE
+            errorMessage.visibility = View.INVISIBLE
+            globalProgressBar.visibility = View.INVISIBLE
+            translationProgressBar.visibility = View.INVISIBLE
             fromLanguagesSpinner.visibility = View.VISIBLE
             fromLanguageLabel.visibility = View.VISIBLE
             toLanguagesSpinner.visibility = View.VISIBLE
@@ -136,8 +136,12 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     }
 
     override fun showErrorState(state: AddTranslationStateModel.Error) {
-        context?.let {
-            Toast.makeText(it, state.errorMessage, Toast.LENGTH_LONG)
+        with(binding) {
+            translationProgressBar.visibility = View.INVISIBLE
+            errorMessage.apply {
+                visibility = View.VISIBLE
+                text = state.errorMessage
+            }
         }
     }
 
