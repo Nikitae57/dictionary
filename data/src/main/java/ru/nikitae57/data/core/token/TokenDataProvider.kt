@@ -13,7 +13,7 @@ class TokenDataProvider @Inject constructor() : TokenStore, TokenProvider {
         return token
     }
 
-    override fun storeToken(token: String) {
+    override fun setToken(token: String) {
         this.token = token
     }
 }

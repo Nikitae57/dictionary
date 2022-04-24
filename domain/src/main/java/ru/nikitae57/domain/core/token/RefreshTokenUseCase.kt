@@ -13,7 +13,7 @@ class RefreshTokenUseCase @Inject constructor(
         return tokenSource.getToken()
             .subscribeOn(schedulerProvider.io())
             .map {
-                tokenStore.storeToken(it)
+                tokenStore.setToken(it)
             }.ignoreElement()
     }
 }
