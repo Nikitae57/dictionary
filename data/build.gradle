@@ -26,6 +26,7 @@ android {
             buildConfigField "String", "FOLDER_ID", getProps("FOLDER_ID")
         }
         release {
+            buildConfigField "String", "API_KEY", getProps("API_KEY")
             buildConfigField "String", "FOLDER_ID", getProps("FOLDER_ID")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -1,6 +1,5 @@
 package ru.nikitae57.data.di
 
-import android.util.Log
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -32,7 +31,6 @@ class DataModule {
                     .addHeader("Authorization", "Bearer ${tokenProvider.getToken()}")
                     .build()
 
-                Log.d("adfsdf", tokenProvider.getToken())
                 chain.proceed(newRequest)
             }
             .callTimeout(10L, TimeUnit.SECONDS)

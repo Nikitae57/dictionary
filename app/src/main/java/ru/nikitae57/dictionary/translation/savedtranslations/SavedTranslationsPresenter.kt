@@ -53,7 +53,7 @@ class SavedTranslationsPresenter @Inject constructor(
                 } else {
                     dictionaryEntryStateModels
                 }
-                viewState.showSuccessState(filteredEntries)
+                viewState.showSuccessState(SavedTranslationsStateModel.Success(filteredEntries))
             }
             .also { addToDisposables(it) }
     }
@@ -68,8 +68,9 @@ class SavedTranslationsPresenter @Inject constructor(
                 .subscribeBy(
                     onError = { showError() },
                     onSuccess = {
-                        dictionaryEntryStateModels = successStateMapper(it)
-                        viewState.showSuccessState(dictionaryEntryStateModels)
+                        val state = successStateMapper(it)
+                        dictionaryEntryStateModels = state.dictionaryEntriesStateModel
+                        viewState.showSuccessState(state)
                     }
                 )
                 .also { addToDisposables(it) }

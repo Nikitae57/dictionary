@@ -2,7 +2,6 @@ package ru.nikitae57.dictionary.translation.savedtranslations
 
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.SingleState
-import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
 
 interface SavedTranslationsView : MvpView {
     @SingleState
@@ -12,7 +11,7 @@ interface SavedTranslationsView : MvpView {
     fun showLoadingState()
 
     @SingleState
-    fun showSuccessState(dictionaryEntriesStateModel: DictionaryEntriesStateModel)
+    fun showSuccessState(state: SavedTranslationsStateModel.Success)
 
     @SingleState
     fun showErrorState(state: SavedTranslationsStateModel.Error)

@@ -18,7 +18,7 @@ private val initialState = SavedTranslationsStateModel.Initial(
 private val dictionaryEntriesDomainModel = DictionaryEntriesDomainModel(entries = emptyList())
 
 private val successState = SavedTranslationsStateModel.Success(
-    dictionaryEntryStateModels = DictionaryEntriesStateModel.createEmpty()
+    dictionaryEntriesStateModel = DictionaryEntriesStateModel.createEmpty()
 )
 
 private val errorState = SavedTranslationsStateModel.Error(

@@ -82,8 +82,8 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
         }
     }
 
-    override fun showSuccessState(dictionaryEntriesStateModel: DictionaryEntriesStateModel) {
-        updateTranslationsList(dictionaryEntriesStateModel)
+    override fun showSuccessState(state: SavedTranslationsStateModel.Success) {
+        updateTranslationsList(state.dictionaryEntriesStateModel)
         with(binding) {
             searchInputLayout.visibility = View.VISIBLE
             translationsList.visibility = View.VISIBLE

@@ -5,9 +5,9 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import moxy.InjectViewState
-import ru.nikitae57.common.AppSchedulerProvider
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.dictionary.translation.models.WordStateModel
+import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.translation.savetranslation.SaveTranslationUseCase
 import ru.nikitae57.domain.translation.translate.TextToTranslateDomainModel
 import ru.nikitae57.domain.translation.translate.TranslateUseCase
@@ -23,10 +23,10 @@ class AddTranslationPresenter @Inject constructor(
     private val saveTranslationUseCase: SaveTranslationUseCase,
     private val dictionaryEntryDomainModelMapper: DictionaryEntryDomainModelMapper,
     private val errorStateMapper: AddTranslationErrorStateMapper,
-    private val schedulerProvider: AppSchedulerProvider,
+    private val schedulerProvider: SchedulerProvider,
 ) : BasePresenter<AddTranslationView>() {
 
-    private lateinit var currentTranslation: WordStateModel
+    private var currentTranslation = WordStateModel(text = "", languageLabel = "")
     private lateinit var currentInputText: WordStateModel
     private lateinit var fromLanguageLabels: MutableList<CharSequence>
     private lateinit var toLanguageLabels: MutableList<CharSequence>
@@ -109,7 +109,8 @@ class AddTranslationPresenter @Inject constructor(
         .debounce(500L, TimeUnit.MILLISECONDS)
         .observeOn(schedulerProvider.ui())
         .map {
-            if (it.text.isNotEmpty()) {
+            if (it.text.isNotEmpty() && it.text != currentTranslation.text
+            ) {
                 viewState.showTranslationLoadingState()
             }
             it
@@ -138,9 +139,7 @@ class AddTranslationPresenter @Inject constructor(
                     .doOnError { error ->
                         viewState.showErrorState(errorStateMapper(error.message))
                     }.observeOn(schedulerProvider.io())
-                    .onExceptionResumeNext {
-                        val i = 0
-                    }
+                    .onExceptionResumeNext {}
             }
         }
         .map { WordStateModel(text = it.translation, languageLabel = it.toLanguageLabel) }
@@ -156,7 +155,9 @@ class AddTranslationPresenter @Inject constructor(
 
     private fun showSuccessState() {
         val successState = successStateMapper()
-        currentInputText = WordStateModel(text = "", languageLabel = successState.fromLanguageLabels.first())
+        fromLanguageLabel = successState.fromLanguageLabels.first().toString()
+        toLanguageLabel = successState.toLanguageLabels.first().toString()
+        currentInputText = WordStateModel(text = "", languageLabel = fromLanguageLabel)
         fromLanguageLabels = successState.fromLanguageLabels.toMutableList()
         toLanguageLabels = successState.toLanguageLabels.toMutableList()
         viewState.showSuccessState(successState)
