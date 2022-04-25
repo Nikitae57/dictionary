@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.core.room.translation
+package ru.nikitae57.data.core.room.translation
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

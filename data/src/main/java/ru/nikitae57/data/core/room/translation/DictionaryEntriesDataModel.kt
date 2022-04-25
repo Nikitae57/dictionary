@@ -1,4 +1,4 @@
-package ru.nikitae57.dictionary.core.room.translation
+package ru.nikitae57.data.core.room.translation
 
 data class DictionaryEntriesDataModel(
     val words: List<WordDataModel>

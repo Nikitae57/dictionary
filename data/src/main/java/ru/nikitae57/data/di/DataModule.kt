@@ -1,11 +1,15 @@
 package ru.nikitae57.data.di
 
+import android.app.Application
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ru.nikitae57.data.core.room.APP_DB_NAME
+import ru.nikitae57.data.core.room.AppDatabase
 import ru.nikitae57.data.translation.gettranslation.YandexTokenApi
 import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.core.token.TokenProvider
@@ -46,4 +50,9 @@ class DataModule {
             .client(httpClient)
             .build()
     }
+
+    @Provides
+    fun providesDataBase(application: Application) =
+        Room.databaseBuilder(application, AppDatabase::class.java, APP_DB_NAME)
+            .build()
 }

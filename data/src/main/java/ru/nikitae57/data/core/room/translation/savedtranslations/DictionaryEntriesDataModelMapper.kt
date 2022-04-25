@@ -1,7 +1,7 @@
-package ru.nikitae57.dictionary.translation.savedtranslations
+package ru.nikitae57.data.core.room.translation.savedtranslations
 
-import ru.nikitae57.dictionary.core.room.translation.DictionaryEntriesDataModel
-import ru.nikitae57.dictionary.core.room.translation.WordDataModel
+import ru.nikitae57.data.core.room.translation.DictionaryEntriesDataModel
+import ru.nikitae57.data.core.room.translation.WordDataModel
 import ru.nikitae57.domain.translation.models.DictionaryEntryDomainModel
 import javax.inject.Inject
 

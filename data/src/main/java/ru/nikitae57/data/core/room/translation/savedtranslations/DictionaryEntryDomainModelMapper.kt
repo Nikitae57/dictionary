@@ -1,7 +1,7 @@
-package ru.nikitae57.dictionary.translation.savedtranslations
+package ru.nikitae57.data.core.room.translation.savedtranslations
 
-import ru.nikitae57.dictionary.core.room.translation.DictionaryEntryWithWordsDataModel
-import ru.nikitae57.dictionary.core.room.translation.WordDataModel
+import ru.nikitae57.data.core.room.translation.DictionaryEntryWithWordsDataModel
+import ru.nikitae57.data.core.room.translation.WordDataModel
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
 import ru.nikitae57.domain.translation.models.DictionaryEntryDomainModel
 import ru.nikitae57.domain.translation.models.WordDomainModel

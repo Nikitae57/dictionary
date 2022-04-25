@@ -14,6 +14,7 @@ import moxy.ktx.moxyPresenter
 import ru.nikitae57.dictionary.core.BackButtonListener
 import ru.nikitae57.dictionary.databinding.FragmentAddTranslationBinding
 import ru.nikitae57.dictionary.getTranslationsComponent
+import ru.nikitae57.dictionary.isRunningTest
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -28,9 +29,14 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
     }
 
     override fun onAttach(context: Context) {
+        initDi()
         super.onAttach(context)
-        getTranslationsComponent()
-            .inject(this)
+    }
+
+    private fun initDi() {
+        if (!isRunningTest) {
+            getTranslationsComponent().inject(this)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

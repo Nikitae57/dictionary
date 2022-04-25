@@ -9,9 +9,11 @@ fun Fragment.getAppComponent() = (requireContext().applicationContext as App).ap
 
 fun Activity.getAppComponent() = (applicationContext as App).appComponent
 
-fun SavedTranslationsFragment.getTranslationsComponent() = (requireContext().applicationContext as App).translationComponent
+fun Activity.getDataComponent() = (applicationContext as App).dataComponent
 
-fun AddTranslationFragment.getTranslationsComponent() = (requireContext().applicationContext as App).translationComponent
+fun SavedTranslationsFragment.getTranslationsComponent() = (requireActivity() as MainActivity).translationComponent
+
+fun AddTranslationFragment.getTranslationsComponent() = (requireActivity() as MainActivity).translationComponent
 
 val Fragment.isRunningTest: Boolean by lazy {
     try {

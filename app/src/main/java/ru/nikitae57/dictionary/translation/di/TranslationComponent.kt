@@ -10,7 +10,6 @@ import ru.nikitae57.dictionary.translation.translate.AddTranslationFragment
 @TranslationScope
 @Component(
     dependencies = [AppComponent::class, TranslationDataComponent::class],
-    modules = [TranslationBindingModule::class, TranslationModule::class]
 )
 interface TranslationComponent {
     fun inject(savedTranslationsFragment: SavedTranslationsFragment)

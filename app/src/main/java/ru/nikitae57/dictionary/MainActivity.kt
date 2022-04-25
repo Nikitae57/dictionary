@@ -7,7 +7,11 @@ import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import ru.nikitae57.data.translation.di.DaggerTranslationDataComponent
+import ru.nikitae57.data.translation.di.TranslationDataModule
 import ru.nikitae57.dictionary.core.BackButtonListener
+import ru.nikitae57.dictionary.translation.di.DaggerTranslationComponent
+import ru.nikitae57.dictionary.translation.di.TranslationComponent
 import javax.inject.Inject
 
 class MainActivity : FragmentActivity(R.layout.activity_main) {
@@ -20,6 +24,18 @@ class MainActivity : FragmentActivity(R.layout.activity_main) {
             super.applyCommands(commands)
             supportFragmentManager.executePendingTransactions()
         }
+    }
+
+    val translationComponent: TranslationComponent by lazy {
+        val translationDataComponent = DaggerTranslationDataComponent.builder()
+            .translationDataModule(TranslationDataModule())
+            .dataComponent(getDataComponent())
+            .build()
+
+        DaggerTranslationComponent.builder()
+            .appComponent(getAppComponent())
+            .translationDataComponent(translationDataComponent)
+            .build()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

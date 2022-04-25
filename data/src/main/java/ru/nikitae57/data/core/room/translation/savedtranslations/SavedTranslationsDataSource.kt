@@ -1,8 +1,8 @@
-package ru.nikitae57.dictionary.translation.savedtranslations
+package ru.nikitae57.data.core.room.translation.savedtranslations
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import ru.nikitae57.dictionary.core.room.translation.TranslationDao
+import ru.nikitae57.data.core.room.translation.TranslationDao
 import ru.nikitae57.domain.translation.SavedTranslationsSource
 import ru.nikitae57.domain.translation.models.DictionaryEntriesDomainModel
 import ru.nikitae57.domain.translation.models.DictionaryEntryDomainModel

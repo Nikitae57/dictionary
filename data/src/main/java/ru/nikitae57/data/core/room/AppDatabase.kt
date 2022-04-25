@@ -1,10 +1,10 @@
-package ru.nikitae57.dictionary.core.room
+package ru.nikitae57.data.core.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.nikitae57.dictionary.core.room.translation.DictionaryEntryDataModel
-import ru.nikitae57.dictionary.core.room.translation.TranslationDao
-import ru.nikitae57.dictionary.core.room.translation.WordDataModel
+import ru.nikitae57.data.core.room.translation.DictionaryEntryDataModel
+import ru.nikitae57.data.core.room.translation.TranslationDao
+import ru.nikitae57.data.core.room.translation.WordDataModel
 
 const val APP_DB_NAME = "app_database"
 
