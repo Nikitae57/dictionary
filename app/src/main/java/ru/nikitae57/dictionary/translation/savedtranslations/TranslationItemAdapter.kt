@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.nikitae57.dictionary.R
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
@@ -17,6 +18,17 @@ class TranslationItemAdapter(
 
     private val entries: List<DictionaryEntryStateModel>
         get() = dictionaryEntriesStateModel.entries
+
+    fun updateEntries(dictionaryEntriesStateModel: DictionaryEntriesStateModel) {
+        val callback = TranslationItemDiffCallback(
+            old = dictionaryEntriesStateModel,
+            new = dictionaryEntriesStateModel
+        )
+        val diffResult = DiffUtil.calculateDiff(callback)
+
+        this.dictionaryEntriesStateModel = dictionaryEntriesStateModel
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TranslationItemViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -12,7 +12,7 @@ class TokenDataSource @Inject constructor(
 ) : TokenSource {
     override fun getToken(): Single<String> {
         val body = YandexRefreshTokenBody(BuildConfig.API_KEY)
-        return tokenApi.refreshToken("https://iam.api.cloud.yandex.net/iam/v1/tokens", body)
+        return tokenApi.refreshToken(body)
             .map { it.token }
     }
 }

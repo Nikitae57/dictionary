@@ -2,20 +2,16 @@ package ru.nikitae57.dictionary.translation.translate
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import moxy.InjectViewState
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.dictionary.translation.models.WordStateModel
 import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.translation.savetranslation.SaveTranslationUseCase
 import ru.nikitae57.domain.translation.translate.TextToTranslateDomainModel
 import ru.nikitae57.domain.translation.translate.TranslateUseCase
-import ru.nikitae57.domain.translation.translate.TranslationDomainModel
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@InjectViewState
 class AddTranslationPresenter @Inject constructor(
     private val router: Router,
     private val successStateMapper: AddTranslationSuccessStateMapper,
@@ -108,39 +104,26 @@ class AddTranslationPresenter @Inject constructor(
         .subscribeOn(schedulerProvider.io())
         .debounce(500L, TimeUnit.MILLISECONDS)
         .observeOn(schedulerProvider.ui())
-        .map {
-            if (it.text.isNotEmpty() && it.text != currentTranslation.text
-            ) {
+        .doOnNext {
+            if (it.text.isNotEmpty() && it.text != currentTranslation.text) {
                 viewState.showTranslationLoadingState()
             }
-            it
         }
         .observeOn(schedulerProvider.io())
         .flatMap {
-            if (it.text.isEmpty() || it.fromLanguageLabel == it.toLanguageLabel) {
-                Observable.just(
-                    TranslationDomainModel(
-                        translation = it.text,
-                        originalText = currentInputText.text.toString(),
-                        fromLanguageLabel = fromLanguageLabel,
-                        toLanguageLabel = toLanguageLabel
-                    )
-                )
-            } else {
-                val domainModel = TextToTranslateDomainModel(
-                    text = it.text,
-                    fromLanguageLabel = it.fromLanguageLabel,
-                    toLanguageLabel = it.toLanguageLabel
-                )
-                Log.d(TAG, "Sending to translate: from=$${it.fromLanguageLabel}, to=${it.toLanguageLabel} text:${it.text}")
-                translateUseCase(domainModel)
-                    .toObservable()
-                    .observeOn(schedulerProvider.ui())
-                    .doOnError { error ->
-                        viewState.showErrorState(errorStateMapper(error.message))
-                    }.observeOn(schedulerProvider.io())
-                    .onExceptionResumeNext {}
-            }
+            val domainModel = TextToTranslateDomainModel(
+                text = it.text,
+                fromLanguageLabel = it.fromLanguageLabel,
+                toLanguageLabel = it.toLanguageLabel
+            )
+            Log.d(TAG, "Sending to translate: from=$${it.fromLanguageLabel}, to=${it.toLanguageLabel} text:${it.text}")
+            translateUseCase(domainModel)
+                .toObservable()
+                .observeOn(schedulerProvider.ui())
+                .doOnError { error ->
+                    viewState.showErrorState(errorStateMapper(error.message))
+                }.observeOn(schedulerProvider.io())
+                .onExceptionResumeNext {}
         }
         .map { WordStateModel(text = it.translation, languageLabel = it.toLanguageLabel) }
         .observeOn(schedulerProvider.ui())

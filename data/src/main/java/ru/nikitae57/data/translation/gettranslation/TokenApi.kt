@@ -8,7 +8,7 @@ import retrofit2.http.Url
 interface YandexTokenApi {
     @POST
     fun refreshToken(
-        @Url refreshTokenApiUrl: String,
-        @Body body: YandexRefreshTokenBody
+        @Body body: YandexRefreshTokenBody,
+        @Url refreshTokenApiUrl: String = "https://iam.api.cloud.yandex.net/iam/v1/tokens"
     ): Single<YandexTokenRefreshResponse>
 }

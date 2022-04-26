@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -50,7 +49,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        with(binding) {
             fab.setOnClickListener {
                 presenter.onAddTranslationClicked()
             }
@@ -73,7 +72,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
     }
 
     override fun showLoadingState() {
-        binding.apply {
+        with(binding) {
             errorNotification.visibility = View.INVISIBLE
             translationsList.visibility = View.INVISIBLE
             searchInputLayout.visibility = View.INVISIBLE
@@ -94,7 +93,7 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
     }
 
     override fun showErrorState(state: SavedTranslationsStateModel.Error) {
-        binding.apply {
+        with(binding) {
             errorMessage.text = state.errorMessage
             tryAgainButton.apply {
                 text = state.tryAgainButtonText
@@ -110,15 +109,8 @@ class SavedTranslationsFragment : MvpAppCompatFragment(), SavedTranslationsView 
     }
 
     private fun updateTranslationsList(dictionaryEntriesStateModel: DictionaryEntriesStateModel) {
-        val adapter = binding.translationsList.adapter as TranslationItemAdapter
-        val callback = TranslationItemDiffCallback(
-            old = adapter.dictionaryEntriesStateModel,
-            new = dictionaryEntriesStateModel
-        )
-        val diffResult = DiffUtil.calculateDiff(callback)
-
-        adapter.dictionaryEntriesStateModel = dictionaryEntriesStateModel
-        diffResult.dispatchUpdatesTo(adapter)
+        (binding.translationsList.adapter as TranslationItemAdapter)
+            .updateEntries(dictionaryEntriesStateModel)
     }
 
     companion object {

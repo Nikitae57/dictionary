@@ -3,7 +3,6 @@ package ru.nikitae57.dictionary.translation.savedtranslations
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.subjects.PublishSubject
-import moxy.InjectViewState
 import ru.nikitae57.dictionary.Screens
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.dictionary.translation.models.DictionaryEntriesStateModel
@@ -12,7 +11,6 @@ import ru.nikitae57.domain.translation.savedtranslations.GetSavedTranslationsUse
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-@InjectViewState
 class SavedTranslationsPresenter @Inject constructor(
     private val router: Router,
     private val initialStateMapper: SavedTranslationsInitialStateModelMapper,
@@ -61,22 +59,18 @@ class SavedTranslationsPresenter @Inject constructor(
     fun loadSavedTranslations() {
         viewState.showLoadingState()
 
-        try {
-            getSavedTranslationsUseCase.invoke()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribeBy(
-                    onError = { showError() },
-                    onSuccess = {
-                        val state = successStateMapper(it)
-                        dictionaryEntryStateModels = state.dictionaryEntriesStateModel
-                        viewState.showSuccessState(state)
-                    }
-                )
-                .also { addToDisposables(it) }
-        } catch (ex: Exception) {
-            showError()
-        }
+        getSavedTranslationsUseCase.invoke()
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
+            .subscribeBy(
+                onError = { showError() },
+                onSuccess = {
+                    val state = successStateMapper(it)
+                    dictionaryEntryStateModels = state.dictionaryEntriesStateModel
+                    viewState.showSuccessState(state)
+                }
+            )
+            .also { addToDisposables(it) }
     }
 
     private fun showError() = viewState.showErrorState(

@@ -7,7 +7,7 @@ class TranslateUseCase @Inject constructor(
     private val translationSource: TranslationSource
 ) {
     operator fun invoke(textToTranslateDomainModel: TextToTranslateDomainModel): Single<TranslationDomainModel> {
-        if (textToTranslateDomainModel.fromLanguageLabel == textToTranslateDomainModel.toLanguageLabel) {
+        if (textToTranslateDomainModel.text.isEmpty() || textToTranslateDomainModel.fromLanguageLabel == textToTranslateDomainModel.toLanguageLabel) {
             return Single.just(
                 TranslationDomainModel(
                     translation = textToTranslateDomainModel.text,

@@ -13,5 +13,5 @@ sealed class AddTranslationStateModel {
         @DrawableRes val swapLanguagesIconId: Int
     ) : AddTranslationStateModel()
 
-    data class Error(val errorMessage: CharSequence)
+    data class Error(val errorMessage: CharSequence) : AddTranslationStateModel()
 }

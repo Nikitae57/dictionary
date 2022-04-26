@@ -9,7 +9,7 @@ sealed class SavedTranslationsStateModel {
 
     data class Success(
         val dictionaryEntriesStateModel: DictionaryEntriesStateModel
-    )
+    ) : SavedTranslationsStateModel()
 
     data class Error(
         val tryAgainButtonText: CharSequence,

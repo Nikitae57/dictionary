@@ -151,7 +151,7 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
         }
     }
 
-    private fun setListeners() = binding.apply {
+    private fun setListeners() = binding.run {
         addButton.setOnClickListener { presenter.onSaveTranslation() }
         wordInputEditText.addTextChangedListener { editable ->
             val fromLanguage = fromLanguagesSpinner.selectedItem
@@ -175,8 +175,7 @@ class AddTranslationFragment : MvpAppCompatFragment(), AddTranslationView, BackB
                 presenter.onToLanguageChanged(toLanguagesSpinner.selectedItem.toString())
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
     }
 

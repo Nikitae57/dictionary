@@ -1,14 +1,12 @@
 package ru.nikitae57.dictionary.launcher
 
 import com.github.terrakok.cicerone.Router
-import moxy.InjectViewState
 import ru.nikitae57.dictionary.Screens
 import ru.nikitae57.dictionary.core.BasePresenter
 import ru.nikitae57.domain.core.SchedulerProvider
 import ru.nikitae57.domain.core.token.RefreshTokenUseCase
 import javax.inject.Inject
 
-@InjectViewState
 class LauncherPresenter @Inject constructor(
     private val refreshTokenUseCase: RefreshTokenUseCase,
     private val schedulerProvider: SchedulerProvider,
@@ -18,6 +16,7 @@ class LauncherPresenter @Inject constructor(
         super.onFirstViewAttach()
         refreshTokenUseCase.invoke()
             .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .subscribe {
                 router.newRootScreen(Screens.main())
             }
