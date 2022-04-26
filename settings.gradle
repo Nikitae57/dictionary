@@ -14,3 +14,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Dictionary"
 include ':app'
+include ':domain'
+include ':data'
+include ':common'
+
+project(':common').projectDir = new File(settingsDir, 'common')

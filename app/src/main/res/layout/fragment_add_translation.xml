@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".translation.translate.AddTranslationFragment">
+
+    <ImageButton
+        android:id="@+id/swapLanguagesButton"
+        style="@style/DefaultImageButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_margin"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@id/fromLanguagesSpinner"
+        app:layout_constraintStart_toEndOf="@id/fromLanguagesSpinner"
+        app:layout_constraintTop_toTopOf="@id/fromLanguagesSpinner"
+        tools:src="@drawable/ic_compare_arrows_24" />
+
+    <ProgressBar
+        android:id="@+id/globalProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/translationProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/divider"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/fromLanguagesSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@id/fromLanguageLabel"
+        app:layout_constraintTop_toBottomOf="@id/wordInputLayout" />
+
+    <Spinner
+        android:id="@+id/toLanguagesSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@id/toLanguageLabel"
+        app:layout_constraintTop_toBottomOf="@id/wordInputLayout" />
+
+    <TextView
+        android:id="@+id/fromLanguageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wordInputLayout"
+        tools:text="from" />
+
+    <TextView
+        android:id="@+id/toLanguageLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toEndOf="@id/swapLanguagesButton"
+        app:layout_constraintTop_toBottomOf="@id/wordInputLayout"
+        tools:text="to" />
+
+    <TextView
+        android:id="@+id/translatedWord"
+        style="@style/BoldText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="@dimen/default_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/divider"
+        tools:text="A translated word" />
+
+    <TextView
+        android:id="@+id/errorMessage"
+        style="@style/ErrorText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/default_margin"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fromLanguagesSpinner"
+        tools:text="add" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/wordInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:hint="@string/word_input_hint">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/wordInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
